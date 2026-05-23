@@ -7,9 +7,72 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="theme-light">
+  <main>
+    <section class="section first-section overview">
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-link is-selected" href="index.html" aria-current="page">Overview</a>
+        <a class="nav-link" href="nasa.html">NASA</a>
+        <a class="nav-link" href="shelf.html">Shelf</a>
+        <a class="nav-link" href="indecision.html">InDecision</a>
+        <a class="nav-link" href="dietary-sensing.html">Dietary Sensing</a>
+      </nav>
 
-  <h1>Hello world.</h1>
+      <div class="view text-view text-center">
+        <h3 class="eyebrow eyebrow-overview">Chance Castañeda</h3>
+        <h1 class="headline">Designing systems that feel intuitive at human speed.</h1>
+        <p class="body-copy">I’m interested in how interfaces help people make sense of complex environments. My work spans envisioning the future of deep space operations, decision-making systems, and reflective experiences — always with a focus on clarity, continuity, and thoughtful interaction design. Currently, I work as a Crew Interface Designer at NASA Ames Research Center.</p>
+      </div>
+
+      <div class="gallery overview-gallery" id="overview-gallery" aria-label="Featured work gallery">
+        <div class="scroll-container" tabindex="-1">
+          <ul class="item-container" role="list">
+            <li class="gallery-item" role="listitem">
+              <div class="gallery-card gallery-card-nasa" aria-hidden="true"></div>
+              <div class="gallery-meta">
+                <p class="gallery-caption"><span>NASA.</span> The future of crew interaction.</p>
+                <a class="gallery-link" href="nasa.html">Learn more</a>
+              </div>
+            </li>
+            <li class="gallery-item" role="listitem">
+              <div class="gallery-card gallery-card-shelf" aria-hidden="true"></div>
+              <div class="gallery-meta">
+                <p class="gallery-caption"><span>Shelf.</span> Your life. Shelved beautifully.</p>
+                <a class="gallery-link" href="shelf.html">Learn more</a>
+              </div>
+            </li>
+            <li class="gallery-item" role="listitem">
+              <div class="gallery-card gallery-card-indecision" aria-hidden="true"></div>
+              <div class="gallery-meta">
+                <p class="gallery-caption"><span>InDecision.</span> Life deserves your best thinking.</p>
+                <a class="gallery-link" href="indecision.html">Learn more</a>
+              </div>
+            </li>
+            <li class="gallery-item" role="listitem">
+              <div class="gallery-card gallery-card-dietary" aria-hidden="true"></div>
+              <div class="gallery-meta">
+                <p class="gallery-caption"><span>Dietary Sensing.</span> Log meals as they happen.</p>
+                <a class="gallery-link" href="dietary-sensing.html">Learn more</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="gallery-controls" aria-label="Gallery controls">
+          <button class="gallery-button gallery-button-previous" type="button" aria-label="Previous gallery item" disabled>
+            <svg width="9" height="15" viewBox="0 0 9 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M8.4353 7.23486C8.4353 7.396 8.40308 7.54907 8.33862 7.69409C8.27954 7.83374 8.18286 7.96802 8.04858 8.09692L1.85303 14.1636C1.64355 14.3677 1.38843 14.4697 1.08765 14.4697C0.894287 14.4697 0.714355 14.4214 0.547852 14.3247C0.381348 14.228 0.24707 14.0991 0.14502 13.938C0.0483398 13.7769 0 13.5942 0 13.3901C0 13.0947 0.112793 12.8315 0.338379 12.6006L5.85718 7.23486L0.338379 1.86914C0.112793 1.64355 0 1.38037 0 1.07959C0 0.880859 0.0483398 0.700928 0.14502 0.539795C0.24707 0.373291 0.381348 0.241699 0.547852 0.14502C0.714355 0.0483398 0.894287 0 1.08765 0C1.38843 0 1.64355 0.102051 1.85303 0.306152L8.04858 6.3728C8.17749 6.50171 8.27417 6.63599 8.33862 6.77563C8.40308 6.91528 8.4353 7.06836 8.4353 7.23486Z" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="gallery-button gallery-button-next" type="button" aria-label="Next gallery item">
+            <svg width="9" height="15" viewBox="0 0 9 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M8.4353 7.23486C8.4353 7.396 8.40308 7.54907 8.33862 7.69409C8.27954 7.83374 8.18286 7.96802 8.04858 8.09692L1.85303 14.1636C1.64355 14.3677 1.38843 14.4697 1.08765 14.4697C0.894287 14.4697 0.714355 14.4214 0.547852 14.3247C0.381348 14.228 0.24707 14.0991 0.14502 13.938C0.0483398 13.7769 0 13.5942 0 13.3901C0 13.0947 0.112793 12.8315 0.338379 12.6006L5.85718 7.23486L0.338379 1.86914C0.112793 1.64355 0 1.38037 0 1.07959C0 0.880859 0.0483398 0.700928 0.14502 0.539795C0.24707 0.373291 0.381348 0.241699 0.547852 0.14502C0.714355 0.0483398 0.894287 0 1.08765 0C1.38843 0 1.64355 0.102051 1.85303 0.306152L8.04858 6.3728C8.17749 6.50171 8.27417 6.63599 8.33862 6.77563C8.40308 6.91528 8.4353 7.06836 8.4353 7.23486Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
