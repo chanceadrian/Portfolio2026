@@ -289,6 +289,385 @@ figure {
   font-weight: 400;
 }
 
+.project-hero {
+  width: min(1406px, calc(100vw - 48px));
+}
+
+.nasa-hero {
+  aspect-ratio: 1406 / 609;
+  margin-top: 12px;
+  position: relative;
+  overflow: visible;
+  animation: nasaHeroReveal 1800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 88% 69%;
+}
+
+.nasa-hero-stack {
+  position: absolute;
+  inset: 0;
+}
+
+.nasa-hero-image {
+  position: absolute;
+  max-width: none;
+  object-fit: contain;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.nasa-hero-image-1 {
+  --nasa-hero-image-1-left: 0;
+  --nasa-hero-image-1-top: -9.72%;
+  left: var(--nasa-hero-image-1-left);
+  top: var(--nasa-hero-image-1-top);
+  width: 73.06%;
+  height: 109.67%;
+  animation: nasaHeroComputerZoom 2800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  z-index: 1;
+}
+
+.nasa-hero-image-2 {
+  left: 43.23%;
+  top: 19.3%;
+  width: 48.9%;
+  height: 80.39%;
+  animation: nasaHeroDeviceSweep 1300ms cubic-bezier(0.16, 1, 0.3, 1) 1180ms both;
+  z-index: 2;
+}
+
+.nasa-hero-image-3 {
+  left: 85.21%;
+  top: 37.9589%;
+  width: 13.08%;
+  height: 61.74%;
+  animation: nasaHeroDeviceSweep 1250ms cubic-bezier(0.16, 1, 0.3, 1) 1280ms both;
+  z-index: 3;
+}
+
+.shelf {
+  overflow: hidden;
+}
+
+.shelf .text-view,
+.shelf-hero-image {
+  will-change: transform, opacity;
+}
+
+.shelf-hero {
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.shelf-hero-image {
+  width: auto;
+  height: min(1000px, calc(100vh - 48px));
+  margin-top: 48px;
+  max-width: none;
+  object-fit: contain;
+}
+
+.indecision {
+  overflow: hidden;
+}
+
+.indecision-hero {
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.indecision-hero-stack {
+  aspect-ratio: 590 / 560;
+  height: min(668px, calc(100vh - 48px));
+  position: relative;
+}
+
+.indecision-hero-image {
+  width: auto;
+  max-width: none;
+  position: absolute;
+  object-fit: contain;
+  will-change: transform, opacity;
+}
+
+.indecision-hero-image-1 {
+  left: 0.54%;
+  top: 0;
+  height: 100%;
+  z-index: 3;
+}
+
+.indecision-hero-image-2 {
+  left: 31.9%;
+  top: 3.75%;
+  height: 92.39%;
+  z-index: 2;
+}
+
+.indecision-hero-image-3 {
+  left: 60.45%;
+  top: 7.68%;
+  height: 84.5%;
+  z-index: 1;
+}
+
+.indecision .indecision-hero-image-1 {
+  animation: indecisionHeroFan1Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.indecision .indecision-hero-image-2 {
+  animation: indecisionHeroFan2Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
+}
+
+.indecision .indecision-hero-image-3 {
+  animation: indecisionHeroFan3Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) 170ms both;
+}
+
+.dietary {
+  overflow: hidden;
+}
+
+.dietary-hero {
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.dietary-hero-stack {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: min(546px, calc(100vh - 48px));
+}
+
+.dietary-hero-image {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  flex: 0 0 auto;
+  position: relative;
+  object-fit: contain;
+  will-change: transform;
+}
+
+.dietary-hero-image + .dietary-hero-image {
+  margin-left: -236px;
+}
+
+.dietary-hero-image-1 {
+  z-index: 1;
+}
+
+.dietary-hero-image-2 {
+  z-index: 2;
+}
+
+.dietary-hero-image-3 {
+  z-index: 3;
+}
+
+.dietary-hero-image-4 {
+  z-index: 4;
+}
+
+.dietary-hero-image-5 {
+  z-index: 5;
+}
+
+.dietary-hero-image-6 {
+  z-index: 6;
+}
+
+.dietary-hero-image-7 {
+  z-index: 7;
+}
+
+.dietary .dietary-hero-image {
+  animation: dietaryHeroCascade 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dietary .dietary-hero-image-2 {
+  animation-delay: 70ms;
+}
+
+.dietary .dietary-hero-image-3 {
+  animation-delay: 140ms;
+}
+
+.dietary .dietary-hero-image-4 {
+  animation-delay: 210ms;
+}
+
+.dietary .dietary-hero-image-5 {
+  animation-delay: 280ms;
+}
+
+.dietary .dietary-hero-image-6 {
+  animation-delay: 350ms;
+}
+
+.dietary .dietary-hero-image-7 {
+  animation-delay: 420ms;
+}
+
+.shelf .text-view {
+  animation: shelfCopyZoomSettle 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.shelf .shelf-hero-image {
+  animation: shelfHeroSoftRise 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes nasaHeroReveal {
+  from {
+    opacity: 0;
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nasaHeroComputerZoom {
+  from {
+    transform: translate(18.44%, 4.45%) scale(3.25);
+    opacity: 1;
+  }
+
+  36% {
+    transform: translate(18.44%, 0) scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes nasaHeroDeviceSweep {
+  from {
+    opacity: 0;
+    transform: translateX(38vw) scale(1);
+    filter: blur(8px);
+  }
+
+  62% {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes shelfCopyZoomSettle {
+  from {
+    opacity: 0;
+    transform: translateY(150px) scale(1.2);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shelfHeroSoftRise {
+  from {
+    opacity: 0;
+    transform: translateY(180px) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes indecisionHeroFan1Quick {
+  from {
+    transform: translateX(56.5%) scale(1);
+  }
+
+  18% {
+    transform: translateX(56.5%) scale(1);
+  }
+
+  to {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes indecisionHeroFan2Quick {
+  from {
+    transform: translateX(-7.8%) scale(1);
+  }
+
+  10% {
+    transform: translateX(-7.8%) scale(1);
+  }
+
+  to {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes indecisionHeroFan3Quick {
+  from {
+    transform: translateX(-76.6%) scale(1);
+  }
+
+  10% {
+    transform: translateX(-76.6%) scale(1);
+  }
+
+  to {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes dietaryHeroCascade {
+  from {
+    opacity: 0;
+    transform: translateX(80px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nasa-hero,
+  .nasa-hero-image-1,
+  .nasa-hero-image-2,
+  .nasa-hero-image-3,
+  .shelf .text-view,
+  .shelf-hero-image,
+  .indecision-hero-image-2,
+  .indecision-hero-image-3,
+  .dietary-hero-image-1,
+  .dietary-hero-image-2,
+  .dietary-hero-image-3,
+  .dietary-hero-image-4,
+  .dietary-hero-image-5,
+  .dietary-hero-image-6,
+  .dietary-hero-image-7 {
+    animation: none;
+  }
+}
+
 .body-copy {
   max-width: 740px;
   padding-top: 10px;
