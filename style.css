@@ -346,8 +346,10 @@ figure {
 .gallery-card {
   width: 100%;
   aspect-ratio: 980 / 680;
+  display: block;
   border-radius: 28px;
   background: var(--background-primary);
+  outline-offset: 4px;
 }
 
 .gallery-card-nasa {
