@@ -66,8 +66,14 @@ body.theme-dark {
   color-scheme: dark;
 }
 
+:root:has(body.theme-dark) {
+  --background-primary: #000000;
+  --background-secondary: #1d1e1f;
+}
+
 html:has(body.theme-dark) {
   background: var(--background-primary);
+  color-scheme: dark;
 }
 
 main {
