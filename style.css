@@ -34,7 +34,7 @@
 html {
   margin: 0;
   padding: 0;
-  background: var(--background-primary);
+  background: var(--background-secondary);
   color: var(--label-primary);
   font-family: var(--font-family-system);
   -webkit-font-smoothing: antialiased;
@@ -48,12 +48,15 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: clip;
-  background: var(--background-primary);
+  background: var(--background-secondary);
   color: var(--label-primary);
   font-family: var(--font-family-system);
 }
 
-body.theme-light,
+body.theme-light {
+  background: var(--background-secondary);
+}
+
 body.theme-dark {
   background: var(--background-primary);
   color: var(--label-primary);
@@ -61,6 +64,10 @@ body.theme-dark {
 
 .theme-dark {
   color-scheme: dark;
+}
+
+html:has(body.theme-dark) {
+  background: var(--background-primary);
 }
 
 main {
@@ -327,7 +334,8 @@ figure {
 
 .item-container {
   width: max-content;
-  padding-inline: var(--gallery-frame-gutter);
+  padding-left: var(--gallery-frame-gutter);
+  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--gallery-item-width)));
   display: flex;
   align-items: flex-start;
   gap: 24px;
@@ -353,19 +361,207 @@ figure {
 }
 
 .gallery-card-nasa {
+  --nasa-gallery-padding: 60px;
+  position: relative;
+  overflow: hidden;
   background: #000000;
 }
 
+.gallery-card-nasa-stack {
+  aspect-ratio: 1021 / 506;
+  height: calc(100% - (var(--nasa-gallery-padding) * 2));
+  position: absolute;
+  top: 50%;
+  right: var(--nasa-gallery-padding);
+  transform: translateY(-50%);
+}
+
+.gallery-card-nasa-image {
+  position: absolute;
+  max-width: none;
+  object-fit: contain;
+}
+
+.gallery-card-nasa-image-1 {
+  left: 0;
+  top: -9.72%;
+  width: 83.6%;
+  height: 109.68%;
+  z-index: 1;
+}
+
+.gallery-card-nasa-image-2 {
+  left: 37.03%;
+  top: 19.3%;
+  width: 55.95%;
+  height: 80.39%;
+  z-index: 2;
+}
+
+.gallery-card-nasa-image-3 {
+  left: 85.04%;
+  top: 37.96%;
+  width: 14.97%;
+  height: 61.75%;
+  z-index: 3;
+}
+
 .gallery-card-shelf {
+  --shelf-gallery-padding: 60px;
+  --shelf-gallery-overlap: 64px;
+  --shelf-gallery-overlap-resting: -10px;
+  --shelf-gallery-overlap-current: var(--shelf-gallery-overlap);
+  --shelf-gallery-drift: 0px;
+  position: relative;
+  overflow: hidden;
   background: var(--background-primary);
+}
+
+.gallery-card-shelf-stack {
+  position: absolute;
+  inset: var(--shelf-gallery-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-card-shelf-image {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  flex: 0 0 auto;
+  position: relative;
+  object-fit: contain;
+}
+
+.gallery-card-shelf-image + .gallery-card-shelf-image {
+  margin-left: calc(var(--shelf-gallery-overlap-current) * -1);
+}
+
+.gallery-card-shelf-image:nth-child(1) {
+  z-index: 1;
+  transform: translateX(calc(var(--shelf-gallery-drift) * -1));
+}
+
+.gallery-card-shelf-image:nth-child(2) {
+  z-index: 2;
+}
+
+.gallery-card-shelf-image:nth-child(3) {
+  z-index: 3;
+  transform: translateX(var(--shelf-gallery-drift));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card-shelf {
+    --shelf-gallery-overlap-current: var(--shelf-gallery-overlap);
+    --shelf-gallery-drift: 0px;
+  }
 }
 
 .gallery-card-indecision {
+  --indecision-gallery-padding-block: 60px;
+  --indecision-image-1-left: 0.54%;
+  --indecision-image-2-left: 31.9%;
+  --indecision-image-3-left: 60.45%;
+  position: relative;
+  overflow: hidden;
   background: var(--background-primary);
 }
 
+.gallery-card-indecision-stack {
+  aspect-ratio: 590 / 560;
+  height: calc(100% - (var(--indecision-gallery-padding-block) * 2));
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gallery-card-indecision-image {
+  width: auto;
+  max-width: none;
+  position: absolute;
+  object-fit: contain;
+}
+
+.gallery-card-indecision-image-1 {
+  left: var(--indecision-image-1-left);
+  top: 0;
+  height: 100%;
+  z-index: 3;
+}
+
+.gallery-card-indecision-image-2 {
+  left: var(--indecision-image-2-left);
+  top: 3.75%;
+  height: 92.39%;
+  z-index: 2;
+}
+
+.gallery-card-indecision-image-3 {
+  left: var(--indecision-image-3-left);
+  top: 7.68%;
+  height: 84.5%;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card-indecision {
+    --indecision-image-1-left: 0.54%;
+    --indecision-image-2-left: 31.9%;
+    --indecision-image-3-left: 60.45%;
+  }
+}
+
 .gallery-card-dietary {
+  --dietary-gallery-padding-block: 60px;
+  --dietary-gallery-overlap: 340px;
+  --dietary-gallery-overlap-resting: 260px;
+  --dietary-gallery-overlap-current: var(--dietary-gallery-overlap);
+  position: relative;
+  overflow: hidden;
   background: var(--background-primary);
+}
+
+.gallery-card-dietary-stack {
+  position: absolute;
+  inset: var(--dietary-gallery-padding-block) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.gallery-card-dietary-image {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  flex: 0 0 auto;
+  position: relative;
+  object-fit: contain;
+}
+
+.gallery-card-dietary-image + .gallery-card-dietary-image {
+  margin-left: calc(var(--dietary-gallery-overlap-current) * -1);
+}
+
+.gallery-card-dietary-image:nth-child(1) {
+  z-index: 1;
+}
+
+.gallery-card-dietary-image:nth-child(2) {
+  z-index: 2;
+}
+
+.gallery-card-dietary-image:nth-child(3) {
+  z-index: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card-dietary {
+    --dietary-gallery-overlap-current: var(--dietary-gallery-overlap);
+  }
 }
 
 .gallery-meta {
@@ -432,7 +628,7 @@ figure {
 }
 
 .gallery-button:hover:not(:disabled) {
-  background: rgba(60, 60, 67, 0.12);
+  background: rgba(60, 60, 67, 0.14);
 }
 
 .gallery-button svg {
@@ -458,7 +654,94 @@ figure {
 }
 
 .theme-dark .gallery-button:hover:not(:disabled) {
-  background: rgba(235, 235, 245, 0.16);
+  background: rgba(235, 235, 245, 0.18);
+}
+
+.refinements-section {
+  gap: 80px;
+  background: var(--background-primary);
+}
+
+.refinements-copy {
+  width: var(--gallery-frame-width, min(1260px, calc(100vw - 48px)));
+  max-width: min(1260px, calc(100vw - 48px));
+  align-items: flex-start;
+  text-align: left;
+}
+
+.refinements-copy .eyebrow {
+  margin-bottom: 0;
+}
+
+.refinements-copy .headline {
+  max-width: 680px;
+}
+
+.refinements-copy .body-copy {
+  max-width: 840px;
+}
+
+.refinements-gallery {
+  --refinements-last-item-width: 696px;
+}
+
+.refinements-gallery .item-container {
+  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--refinements-last-item-width)));
+}
+
+.refinements-item {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.refinements-item-small {
+  width: 372px;
+}
+
+.refinements-item-medium {
+  width: 696px;
+}
+
+.refinements-card {
+  width: 100%;
+  height: 450px;
+  border-radius: 28px;
+  background-color: var(--background-secondary);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.refinements-card-side-1 {
+  background-image: url("assets/images/Overview/side-1.avif");
+}
+
+.refinements-card-side-2 {
+  background-image: url("assets/images/Overview/side-2.avif");
+}
+
+.refinements-card-side-3 {
+  background-image: url("assets/images/Overview/side-3.avif");
+}
+
+.refinements-card-side-4 {
+  background-color: #000000;
+  background-image: url("assets/images/Overview/side-4.avif");
+}
+
+.refinements-caption {
+  max-width: 480px;
+  padding: 28px 15px 0;
+  color: var(--label-primary);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0;
+}
+
+.refinements-caption span {
+  font-weight: 600;
 }
 
 @media (max-width: 720px) {
@@ -481,5 +764,28 @@ figure {
     --gallery-item-width: calc(100vw - 40px);
     --gallery-frame-width: calc(100vw - 40px);
     --gallery-frame-gutter: 20px;
+  }
+
+  .refinements-copy {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .refinements-gallery {
+    --refinements-last-item-width: calc(100vw - 40px);
+  }
+
+  .refinements-item-small,
+  .refinements-item-medium {
+    width: calc(100vw - 40px);
+  }
+
+  .refinements-card {
+    height: auto;
+    aspect-ratio: 372 / 450;
+  }
+
+  .refinements-item-medium .refinements-card {
+    aspect-ratio: 696 / 450;
   }
 }
