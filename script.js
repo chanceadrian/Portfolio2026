@@ -151,3 +151,114 @@ document.querySelectorAll(".gallery").forEach((gallery) => {
   updateButtons();
   requestGalleryMotionUpdate();
 });
+
+// Segmented image viewer
+document.querySelectorAll(".image-viewer").forEach((viewer) => {
+  const [front, back] = Array.from(viewer.querySelectorAll(".image-frame-img"));
+  const caption = viewer.querySelector(".viewer-caption");
+  const indicator = viewer.querySelector(".segmented-indicator");
+  const buttons = Array.from(viewer.querySelectorAll(".segmented-button"));
+  let isFrontActive = true;
+
+  // Initialize layer stack
+  front.style.opacity = "1";
+  front.style.zIndex = "1";
+  back.style.opacity = "0";
+  back.style.zIndex = "0";
+
+  const positionIndicator = (button) => {
+    if (!indicator || !button) return;
+    indicator.style.left = `${button.offsetLeft}px`;
+    indicator.style.width = `${button.offsetWidth}px`;
+  };
+
+  const selectButton = (button) => {
+    if (button.classList.contains("is-selected")) return;
+
+    buttons.forEach((b) => b.classList.remove("is-selected"));
+    button.classList.add("is-selected");
+    positionIndicator(button);
+
+    const newSrc = button.dataset.image;
+    const newCaption = button.dataset.caption;
+
+    if (newSrc) {
+      const incoming = isFrontActive ? back : front;
+      const outgoing = isFrontActive ? front : back;
+
+      incoming.src = newSrc;
+      incoming.style.zIndex = "1";
+      outgoing.style.zIndex = "0";
+
+      const doFade = () => {
+        incoming.style.opacity = "1";
+        outgoing.style.opacity = "0";
+        isFrontActive = !isFrontActive;
+      };
+
+      if (incoming.complete && incoming.naturalWidth > 0) {
+        doFade();
+      } else {
+        incoming.onload = doFade;
+      }
+    }
+
+    if (caption && newCaption) {
+      caption.classList.add("is-transitioning");
+      setTimeout(() => {
+        caption.textContent = newCaption;
+        caption.classList.remove("is-transitioning");
+      }, 180);
+    }
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => selectButton(button));
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const currentIndex = buttons.findIndex((b) => b.classList.contains("is-selected"));
+    if (currentIndex === -1) return;
+    const nextIndex = e.key === "ArrowLeft" ? currentIndex - 1 : currentIndex + 1;
+    const nextButton = buttons[nextIndex];
+    if (nextButton) selectButton(nextButton);
+  });
+
+  // Set indicator position on load without animation, then restore transition
+  requestAnimationFrame(() => {
+    const selected = buttons.find((b) => b.classList.contains("is-selected"));
+    if (selected && indicator) {
+      indicator.style.transition = "none";
+      positionIndicator(selected);
+      requestAnimationFrame(() => {
+        indicator.style.transition = "";
+      });
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    const selected = buttons.find((b) => b.classList.contains("is-selected"));
+    if (selected) positionIndicator(selected);
+  });
+});
+
+// NASA gallery parallax
+const nasaGallerySection = document.querySelector(".nasa-gallery-section");
+const nasaGalleryImage = nasaGallerySection?.querySelector(".nasa-gallery-image");
+
+if (nasaGallerySection && nasaGalleryImage) {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const updateParallax = () => {
+    if (reduceMotion.matches) return;
+    const rect = nasaGallerySection.getBoundingClientRect();
+    const sectionCenter = rect.top + rect.height / 2;
+    const viewportCenter = window.innerHeight / 2;
+    const offset = (sectionCenter - viewportCenter) * 0.22;
+    nasaGalleryImage.style.transform = `translateY(${offset.toFixed(2)}px)`;
+  };
+
+  window.addEventListener("scroll", updateParallax, { passive: true });
+  updateParallax();
+}

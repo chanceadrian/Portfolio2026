@@ -1,3 +1,5 @@
+/* ── Design Tokens ───────────────────────────────────────── */
+
 :root {
   --font-family-system: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
@@ -26,6 +28,9 @@
   --label-secondary: rgba(235, 235, 245, 0.7);
   --label-tertiary: rgba(235, 235, 245, 0.3);
 }
+
+
+/* ── Reset ───────────────────────────────────────────────── */
 
 * {
   box-sizing: border-box;
@@ -103,6 +108,9 @@ a {
   text-decoration: none;
 }
 
+
+/* ── Navigation ──────────────────────────────────────────── */
+
 .nav {
   width: 100%;
   padding: 12px 0;
@@ -172,6 +180,9 @@ a {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
+
+/* ── Layout ──────────────────────────────────────────────── */
+
 h1,
 h2,
 h3,
@@ -236,6 +247,9 @@ figure {
   text-align: center;
 }
 
+
+/* ── Typography ──────────────────────────────────────────── */
+
 .eyebrow {
   display: inline-flex;
   width: fit-content;
@@ -279,7 +293,6 @@ figure {
 }
 
 .headline {
-  max-width: 680px;
   color: var(--label-primary);
   font-size: 64px;
   font-weight: 600;
@@ -293,7 +306,11 @@ figure {
 
 .nasa .headline {
   font-weight: 400;
+  max-width: 640px;
 }
+
+
+/* ── Project Heroes ──────────────────────────────────────── */
 
 .project-hero {
   width: min(1406px, calc(100vw - 48px));
@@ -526,6 +543,9 @@ figure {
   animation: shelfHeroSoftRise 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+
+/* ── Animations ──────────────────────────────────────────── */
+
 @keyframes nasaHeroReveal {
   from {
     opacity: 0;
@@ -687,6 +707,9 @@ figure {
 .overview .body-copy {
   max-width: 840px;
 }
+
+
+/* ── Overview Gallery ────────────────────────────────────── */
 
 .gallery {
   --gallery-item-width: min(980px, calc(100vw - 48px));
@@ -1042,6 +1065,9 @@ figure {
   background: rgba(235, 235, 245, 0.18);
 }
 
+
+/* ── Refinements ─────────────────────────────────────────── */
+
 .refinements-section {
   gap: 80px;
   background: var(--background-primary);
@@ -1129,6 +1155,9 @@ figure {
   font-weight: 600;
 }
 
+
+/* ── Responsive ──────────────────────────────────────────── */
+
 @media (max-width: 720px) {
   .section {
     padding-right: 20px;
@@ -1173,4 +1202,209 @@ figure {
   .refinements-item-medium .refinements-card {
     aspect-ratio: 696 / 450;
   }
+}
+
+/* ── NASA — Earth-Independent Operations ────────────────────── */
+
+.nasa-eio-section {
+  gap: 64px;
+}
+
+.nasa-eio-section .headline {
+  max-width: 840px;
+}
+
+.nasa-gradient {
+  color: transparent;
+  background-image: linear-gradient(90deg, #f7f7f7, #676767);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.split-view {
+  width: min(100%, 980px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.split-image {
+  height: 859px;
+  width: auto;
+}
+
+.split-stack {
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 41px;
+}
+
+.body-group {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.body-group .body-copy {
+  padding-top: 0;
+  max-width: none;
+}
+
+.no-break {
+  white-space: nowrap;
+}
+
+.inline-icon {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  top: 1px;
+  margin-left: 3px;
+}
+
+.inline-link {
+  color: #2997ff;
+  font-size: 21px;
+  line-height: 29px;
+  letter-spacing: 0.011em;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ── NASA — Situational Awareness ────────────────────────────── */
+
+.nasa-sa-section {
+  gap: 120px;
+}
+
+.intro-split {
+  width: min(100%, 980px);
+  display: flex;
+  align-items: flex-start;
+  gap: 64px;
+}
+
+.intro-split .headline {
+  flex: 1;
+}
+
+.intro-split .body-copy {
+  flex: 1;
+  padding-top: 0;
+  max-width: none;
+}
+
+.image-viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 41px;
+}
+
+.image-frame {
+  width: 1058px;
+  height: 702px;
+  position: relative;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.image-frame-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1177.9px;
+  height: 747.27px;
+  max-width: none;
+  transition: opacity 360ms ease;
+}
+
+.segmented-control {
+  max-width: 540px;
+  width: 100%;
+}
+
+.segmented-track {
+  position: relative;
+  display: flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: rgba(235, 235, 245, 0.12);
+}
+
+.segmented-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 999px;
+  background: rgba(235, 235, 245, 0.18);
+  pointer-events: none;
+  transition:
+    left 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    width 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: left, width;
+}
+
+.segmented-button {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--label-secondary);
+  font-family: var(--font-family-system);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.segmented-button.is-selected {
+  color: var(--label-primary);
+}
+
+.viewer-caption {
+  max-width: 480px;
+  color: var(--label-secondary);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 29px;
+  letter-spacing: 0.011em;
+  text-align: center;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.viewer-caption.is-transitioning {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* ── NASA — Gallery ──────────────────────────────────────────── */
+
+.nasa-gallery-copy-section {
+  padding-bottom: 80px;
+}
+
+.nasa-gallery-section {
+  height: 980px;
+  padding: 0;
+  background: var(--background-secondary);
+  overflow: hidden;
+  justify-content: center;
+}
+
+.nasa-gallery-image {
+  width: 100%;
+  min-height: 1520px;
+  object-fit: cover;
+  object-position: center;
+  will-change: transform;
 }
