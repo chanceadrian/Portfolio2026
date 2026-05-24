@@ -220,6 +220,7 @@ figure {
 
 .first-section {
   padding-top: 0;
+  padding-bottom: 120px;
   gap: 48px;
   background: var(--background-secondary);
 }
@@ -389,6 +390,135 @@ figure {
   max-width: none;
   object-fit: contain;
 }
+
+.body-copy.shelf-intro-copy {
+  max-width: 680px;
+  align-self: center;
+  text-align: center;
+}
+
+.shelf-intro-copy span {
+  color: var(--label-primary);
+}
+
+
+/* ── Shelf Items ─────────────────────────────────────────── */
+
+.shelf-items-section {
+  background: var(--background-primary);
+}
+
+.shelf-items-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 68px;
+  width: min(980px, calc(100vw - 48px));
+}
+
+.shelf-items-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+  flex: 0 0 540px;
+}
+
+.shelf-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  list-style: none;
+}
+
+.shelf-item-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  color: var(--label-secondary);
+  transition: color 250ms ease;
+  cursor: pointer;
+}
+
+.shelf-item-row.is-selected {
+  color: var(--label-primary);
+}
+
+.shelf-item-word {
+  font-size: 76px;
+  font-weight: 600;
+  line-height: 80px;
+  letter-spacing: 0;
+}
+
+.shelf-item-icon {
+  display: block;
+  flex: 0 0 auto;
+  max-width: none;
+  opacity: 0.5;
+  transition: opacity 250ms ease;
+}
+
+.shelf-item-row.is-selected .shelf-item-icon {
+  opacity: 1;
+}
+
+.shelf-item-row[data-index="1"].is-selected .shelf-item-icon {
+  filter: drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.08));
+}
+
+.shelf-items-tagline {
+  color: var(--label-primary);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: 0.007em;
+  margin-bottom: 20px;
+}
+
+.shelf-items-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+  flex: 0 0 372px;
+}
+
+.shelf-gallery-frame {
+  position: relative;
+  width: 372px;
+  height: 760px;
+  border-radius: 40px;
+}
+
+.shelf-gallery-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-width: none;
+  transform-origin: center center;
+  opacity: var(--shelf-img-opacity, 0);
+  transform: translateX(var(--shelf-img-x, 0px)) scale(var(--shelf-img-scale, 0.92));
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1), opacity 600ms ease;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-gallery-img {
+    transition: none;
+  }
+}
+
+.shelf-gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
 
 .indecision {
   overflow: hidden;
@@ -1069,6 +1199,7 @@ figure {
 /* ── Refinements ─────────────────────────────────────────── */
 
 .refinements-section {
+  padding: 120px 24px;
   gap: 80px;
   background: var(--background-primary);
 }
@@ -1092,28 +1223,30 @@ figure {
   max-width: 840px;
 }
 
-.refinements-gallery {
-  --refinements-last-item-width: 696px;
+/* — Poster Gallery: shared component — */
+
+.poster-gallery {
+  --poster-last-item-width: 696px;
 }
 
-.refinements-gallery .item-container {
-  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--refinements-last-item-width)));
+.poster-gallery .item-container {
+  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--poster-last-item-width)));
 }
 
-.refinements-item {
+.poster-item {
   width: auto;
   flex: 0 0 auto;
 }
 
-.refinements-item-small {
+.poster-item-small {
   width: 372px;
 }
 
-.refinements-item-medium {
+.poster-item-medium {
   width: 696px;
 }
 
-.refinements-card {
+.poster-card {
   width: 100%;
   height: 450px;
   border-radius: 28px;
@@ -1122,6 +1255,27 @@ figure {
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
+}
+
+.poster-caption {
+  max-width: 480px;
+  padding: 28px 15px 0;
+  color: var(--label-secondary);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0;
+}
+
+.poster-caption span {
+  color: var(--label-primary);
+  font-weight: 600;
+}
+
+/* — Refinements specifics — */
+
+.refinements-gallery {
+  --poster-last-item-width: 696px;
 }
 
 .refinements-card-side-1 {
@@ -1141,20 +1295,233 @@ figure {
   background-image: url("assets/images/Overview/side-4.avif");
 }
 
-.refinements-caption {
-  max-width: 480px;
-  padding: 28px 15px 0;
-  color: var(--label-primary);
+
+/* ── NASA — Anomaly Response ────────────────────────────── */
+
+.nasa-anomaly-section {
+  gap: 80px;
+}
+
+.anomaly-split {
+  width: min(1260px, 100%);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 80px;
+}
+
+.anomaly-image-group {
+  position: relative;
+  width: 796px;
+  height: 798px;
+  flex: 0 0 796px;
+}
+
+.anomaly-img {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+}
+
+.anomaly-img-1 {
+  left: 0;
+  top: 0;
+  width: 566.67px;
+  height: 795.74px;
+}
+
+.anomaly-img-2 {
+  left: 472.91px;
+  top: 314.35px;
+  width: 235.22px;
+  height: 480.89px;
+}
+
+.anomaly-img-3 {
+  left: 588.61px;
+  top: 551.05px;
+  width: 273.75px;
+  height: 273.75px;
+}
+
+/* ── NASA — Anomaly Scroll Reveal ──────────────────────── */
+
+.anomaly-img-1,
+.anomaly-img-2,
+.anomaly-img-3 {
+  opacity: 0;
+}
+
+@keyframes anomalyRise {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes anomalyHide {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(48px) scale(0.97);
+  }
+}
+
+.anomaly-image-group.is-visible .anomaly-img-1 {
+  animation: anomalyRise 1300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anomaly-image-group.is-visible .anomaly-img-2 {
+  animation: anomalyRise 1300ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
+}
+
+.anomaly-image-group.is-visible .anomaly-img-3 {
+  animation: anomalyRise 1300ms cubic-bezier(0.16, 1, 0.3, 1) 340ms both;
+}
+
+.anomaly-image-group.is-exiting .anomaly-img-1 {
+  animation: anomalyHide 550ms cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+
+.anomaly-image-group.is-exiting .anomaly-img-2 {
+  animation: anomalyHide 550ms cubic-bezier(0.4, 0, 0.6, 1) 120ms both;
+}
+
+.anomaly-image-group.is-exiting .anomaly-img-3 {
+  animation: anomalyHide 550ms cubic-bezier(0.4, 0, 0.6, 1) 240ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anomaly-img-1,
+  .anomaly-img-2,
+  .anomaly-img-3 {
+    opacity: 1;
+  }
+
+  .anomaly-image-group.is-visible .anomaly-img-1,
+  .anomaly-image-group.is-visible .anomaly-img-2,
+  .anomaly-image-group.is-visible .anomaly-img-3,
+  .anomaly-image-group.is-exiting .anomaly-img-1,
+  .anomaly-image-group.is-exiting .anomaly-img-2,
+  .anomaly-image-group.is-exiting .anomaly-img-3 {
+    animation: none;
+  }
+}
+
+.anomaly-text-stack {
+  width: 440px;
+  flex: 0 0 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.anomaly-text-stack .body-copy {
+  max-width: none;
+}
+
+/* ── NASA — Anomaly Gallery ─────────────────────────────── */
+
+.nasa-anomaly-gallery-section {
+  padding-top: 0;
+}
+
+.anomaly-gallery {
+  --anomaly-last-item-width: 832px;
+}
+
+.anomaly-gallery .item-container {
+  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--anomaly-last-item-width)));
+}
+
+.anomaly-item {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.anomaly-item-small {
+  width: 620px;
+}
+
+.anomaly-item-medium {
+  width: 832px;
+}
+
+.anomaly-item-large {
+  width: 1260px;
+}
+
+.anomaly-card {
+  width: 100%;
+  height: 680px;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  background: var(--background-secondary);
+}
+
+.anomaly-card-img {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: none;
+  height: auto;
+}
+
+.anomaly-item-small .anomaly-card-img {
+  width: 353px;
+}
+
+.anomaly-item-medium .anomaly-card-img {
+  width: 629px;
+}
+
+.anomaly-item-large .anomaly-card-img {
+  width: 954px;
+}
+
+.anomaly-caption {
+  max-width: 760px;
+  padding: 24px 15px 0;
+  color: var(--label-secondary);
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 25px;
   letter-spacing: 0;
 }
 
-.refinements-caption span {
-  font-weight: 600;
+.anomaly-caption span {
+  color: var(--label-primary);
 }
 
+/* ── NASA — Behind the Design ───────────────────────────── */
+
+.nasa-btd-section {
+  gap: 80px;
+  padding-block: 120px;
+  background: var(--background-secondary);
+}
+
+.nasa-btd-copy {
+  width: min(1260px, calc(100vw - 48px));
+  align-self: center;
+}
+
+.nasa-btd-gallery {
+  --poster-last-item-width: 372px;
+}
+
+.nasa-btd-gallery .poster-card {
+  background-color: var(--background-primary);
+}
 
 /* ── Responsive ──────────────────────────────────────────── */
 
@@ -1185,21 +1552,22 @@ figure {
     max-width: 100%;
   }
 
-  .refinements-gallery {
-    --refinements-last-item-width: calc(100vw - 40px);
+  .refinements-gallery,
+  .nasa-btd-gallery {
+    --poster-last-item-width: calc(100vw - 40px);
   }
 
-  .refinements-item-small,
-  .refinements-item-medium {
+  .poster-item-small,
+  .poster-item-medium {
     width: calc(100vw - 40px);
   }
 
-  .refinements-card {
+  .poster-card {
     height: auto;
     aspect-ratio: 372 / 450;
   }
 
-  .refinements-item-medium .refinements-card {
+  .poster-item-medium .poster-card {
     aspect-ratio: 696 / 450;
   }
 }
@@ -1394,7 +1762,7 @@ figure {
 }
 
 .nasa-gallery-section {
-  height: 980px;
+  height: 860px;
   padding: 0;
   background: var(--background-secondary);
   overflow: hidden;

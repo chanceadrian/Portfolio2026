@@ -243,6 +243,35 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
   });
 });
 
+// NASA Anomaly scroll reveal
+const anomalyGroup = document.querySelector('.anomaly-image-group');
+const anomalySection = document.querySelector('.nasa-anomaly-section');
+
+if (anomalyGroup && anomalySection) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (reduceMotion.matches) {
+    anomalyGroup.classList.add('is-visible');
+  } else {
+    let hasBeenVisible = false;
+
+    const anomalyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          hasBeenVisible = true;
+          anomalyGroup.classList.remove('is-exiting');
+          anomalyGroup.classList.add('is-visible');
+        } else if (hasBeenVisible && entry.boundingClientRect.top > 0) {
+          anomalyGroup.classList.remove('is-visible');
+          anomalyGroup.classList.add('is-exiting');
+        }
+      });
+    }, { threshold: 0.6, rootMargin: '0px 0px -80px 0px' });
+
+    anomalyObserver.observe(anomalySection);
+  }
+}
+
 // NASA gallery parallax
 const nasaGallerySection = document.querySelector(".nasa-gallery-section");
 const nasaGalleryImage = nasaGallerySection?.querySelector(".nasa-gallery-image");
@@ -261,4 +290,109 @@ if (nasaGallerySection && nasaGalleryImage) {
 
   window.addEventListener("scroll", updateParallax, { passive: true });
   updateParallax();
+}
+
+// Shelf items gallery
+const shelfItemsSection = document.querySelector(".shelf-items-section");
+
+if (shelfItemsSection) {
+  const images = Array.from(shelfItemsSection.querySelectorAll(".shelf-gallery-img"));
+  const rows = Array.from(shelfItemsSection.querySelectorAll(".shelf-item-row"));
+  const prevBtn = shelfItemsSection.querySelector(".gallery-button-previous");
+  const nextBtn = shelfItemsSection.querySelector(".gallery-button-next");
+  const STEP = 406;
+  let currentIndex = 0;
+
+  const updatePositions = (newIndex) => {
+    images.forEach((img, i) => {
+      const offset = i - newIndex;
+      let x, opacity, scale;
+
+      if (offset === 0) {
+        x = 0; opacity = 1; scale = 1;
+      } else if (offset < 0) {
+        x = 0; opacity = 0; scale = 0.92;
+      } else {
+        x = offset * STEP;
+        opacity = offset <= 2 ? 1 : 0;
+        scale = 1;
+      }
+
+      img.style.setProperty("--shelf-img-opacity", opacity);
+      img.style.setProperty("--shelf-img-x", `${x}px`);
+      img.style.setProperty("--shelf-img-scale", scale);
+      img.style.zIndex = offset === 0 ? 2 : 1;
+    });
+
+    rows.forEach((row) => row.classList.remove("is-selected"));
+    rows[newIndex]?.classList.add("is-selected");
+    currentIndex = newIndex;
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === images.length - 1;
+  };
+
+  // Set initial positions without transition flash
+  images.forEach((img) => { img.style.transition = "none"; });
+  updatePositions(0);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      images.forEach((img) => { img.style.transition = ""; });
+    });
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) updatePositions(currentIndex - 1);
+  });
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex < images.length - 1) updatePositions(currentIndex + 1);
+  });
+  rows.forEach((row) => {
+    row.addEventListener("click", () => {
+      const index = parseInt(row.dataset.index, 10);
+      if (!isNaN(index)) updatePositions(index);
+    });
+  });
+
+  // Trackpad / horizontal scroll wheel
+  let wheelAccum = 0;
+  let wheelCooldown = false;
+
+  shelfItemsSection.addEventListener("wheel", (e) => {
+    if (wheelCooldown) return;
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    wheelAccum += e.deltaX;
+    if (Math.abs(wheelAccum) >= 50) {
+      const next = currentIndex + (wheelAccum > 0 ? 1 : -1);
+      if (next >= 0 && next < images.length) updatePositions(next);
+      wheelAccum = 0;
+      wheelCooldown = true;
+      setTimeout(() => { wheelCooldown = false; }, 750);
+    }
+  }, { passive: false });
+
+  // Touch swipe
+  let touchStartX = null;
+
+  shelfItemsSection.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  shelfItemsSection.addEventListener("touchend", (e) => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    touchStartX = null;
+    if (Math.abs(dx) < 60) return;
+    const next = currentIndex + (dx < 0 ? 1 : -1);
+    if (next >= 0 && next < images.length) updatePositions(next);
+  }, { passive: true });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const rect = shelfItemsSection.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const next = currentIndex + (e.key === "ArrowRight" ? 1 : -1);
+    if (next >= 0 && next < images.length) updatePositions(next);
+  });
 }
