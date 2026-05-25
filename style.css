@@ -520,6 +520,274 @@ figure {
 }
 
 
+/* ── Shelf — Style ───────────────────────────────────────── */
+
+.shelf-style-section {
+  gap: 64px;
+  background: var(--background-primary);
+}
+
+.shelf-style-view {
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.shelf-style-headline {
+  max-width: 560px;
+}
+
+.body-copy.shelf-style-copy {
+  max-width: 840px;
+}
+
+.shelf-style-images {
+  width: 100%;
+  max-width: 1280px;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.shelf-style-img {
+  position: relative;
+  width: 340px;
+  height: 695px;
+  flex: 0 0 340px;
+  max-width: none;
+  object-fit: cover;
+}
+
+.shelf-style-img + .shelf-style-img {
+  margin-left: -120px;
+}
+
+/* Phones 1–4 start stacked behind phone 5 (anchor); each step is 220px (340 − 120 overlap) */
+.shelf-style-img:nth-child(1) { z-index: 1; transform: translateX(880px);  --reveal-x:  880px; }
+.shelf-style-img:nth-child(2) { z-index: 2; transform: translateX(660px);  --reveal-x:  660px; }
+.shelf-style-img:nth-child(3) { z-index: 3; transform: translateX(440px);  --reveal-x:  440px; }
+.shelf-style-img:nth-child(4) { z-index: 4; transform: translateX(220px);  --reveal-x:  220px; }
+.shelf-style-img:nth-child(5) { z-index: 5; }
+
+@keyframes styleReveal {
+  from { transform: translateX(var(--reveal-x, 0)); }
+  to   { transform: translateX(0); }
+}
+
+/* Phone 5 anchors; 4 slides first, then 3, 2, 1 */
+.shelf-style-images.is-visible .shelf-style-img:nth-child(4) {
+  animation: styleReveal 1400ms cubic-bezier(0.16, 1, 0.3, 1) 0ms both;
+}
+.shelf-style-images.is-visible .shelf-style-img:nth-child(3) {
+  animation: styleReveal 1400ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
+}
+.shelf-style-images.is-visible .shelf-style-img:nth-child(2) {
+  animation: styleReveal 1400ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+}
+.shelf-style-images.is-visible .shelf-style-img:nth-child(1) {
+  animation: styleReveal 1400ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-style-img {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* ── Shelf — Spaces & Rooms ──────────────────────────────── */
+
+.shelf-spaces-section {
+  gap: 64px;
+  background: var(--background-secondary);
+}
+
+.shelf-spaces-headline {
+  max-width: 480px;
+}
+
+.shelf-spaces-hstack {
+  display: flex;
+  align-items: center;
+  width: min(980px, calc(100vw - 48px));
+}
+
+.shelf-spaces-side {
+  flex: 1;
+  max-width: 280px;
+  display: flex;
+  align-items: center;
+}
+
+.shelf-spaces-side-prev {
+  justify-content: flex-end;
+  padding-right: 22px;
+}
+
+.shelf-spaces-side-next {
+  justify-content: flex-start;
+  padding-left: 22px;
+}
+
+.shelf-spaces-side .gallery-button {
+  width: 36px;
+  height: 64px;
+  margin-bottom: 20px;
+  background: #FFF;
+}
+
+.shelf-spaces-side .gallery-button:hover:not(:disabled) {
+  background: #ededf0;
+}
+
+.shelf-spaces-side .gallery-button svg {
+  transform: translateX(1px);
+}
+
+.shelf-spaces-side .gallery-button-previous svg {
+  transform: translateX(-1px) rotate(180deg);
+}
+
+.shelf-spaces-image-group {
+  position: relative;
+  width: 420px;
+  height: 859px;
+  flex: 0 0 420px;
+  overflow: hidden;
+}
+
+.shelf-spaces-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 859px;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 400ms ease;
+}
+
+.shelf-spaces-items-clip {
+  position: absolute;
+  left: 22.3px;
+  top: 94.25px;
+  width: 375.38px;
+  height: 638.7px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  z-index: 3;
+}
+
+.shelf-spaces-items-clip::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-spaces-items-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.shelf-spaces-item {
+  width: 375.38px;
+  height: 638.7px;
+  flex: 0 0 375.38px;
+  max-width: none;
+  object-fit: cover;
+  scroll-snap-align: start;
+}
+
+.shelf-spaces-darken {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 859px;
+  max-width: none;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+.shelf-spaces-sheet-clip {
+  position: absolute;
+  left: 22.3px;
+  top: 21.5px;
+  width: 375.38px;
+  height: 816.03px;
+  border-radius: 58px;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.shelf-spaces-image-group.is-room .shelf-spaces-items-clip {
+  z-index: 1;
+}
+
+.shelf-spaces-image-group.is-room .shelf-spaces-sheet-clip {
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.shelf-spaces-sheet-img {
+  position: absolute;
+  left: 0;
+  top: 57.8px;
+  width: 375.38px;
+  height: 758.23px;
+  max-width: none;
+  object-fit: cover;
+  border-radius: 36px;
+  transform: translateY(100%);
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  box-shadow: 0 15px 75px 0 rgba(0, 0, 0, 0.3);
+}
+
+.shelf-spaces-sheet-clip.is-room .shelf-spaces-sheet-img {
+  transform: translateY(0);
+}
+
+.shelf-spaces-controls-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: -42px;
+}
+
+.segmented-control.shelf-spaces-segmented {
+  max-width: 280px;
+}
+
+.shelf-spaces-segmented .segmented-track {
+  background: #FFF;
+  overflow: hidden;
+}
+
+.shelf-spaces-segmented .segmented-indicator {
+  background: #ededf0;
+}
+
+.shelf-spaces-caption {
+  max-width: 440px;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-spaces-bg-img,
+  .shelf-spaces-darken,
+  .shelf-spaces-sheet-img {
+    transition: none;
+  }
+}
+
+
 .indecision {
   overflow: hidden;
 }
@@ -1684,7 +1952,8 @@ figure {
   left: 0;
   width: 1177.9px;
   height: 747.27px;
-  max-width: none;
+  background-size: cover;
+  background-position: center;
   transition: opacity 360ms ease;
 }
 
@@ -1737,6 +2006,10 @@ figure {
 
 .segmented-button.is-selected {
   color: var(--label-primary);
+}
+
+.segmented-button:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .viewer-caption {

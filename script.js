@@ -1,3 +1,5 @@
+let activeGalleryController = null;
+
 document.querySelectorAll(".gallery").forEach((gallery) => {
   const scroller = gallery.querySelector(".scroll-container");
   const items = Array.from(gallery.querySelectorAll(".gallery-item"));
@@ -150,6 +152,25 @@ document.querySelectorAll(".gallery").forEach((gallery) => {
 
   updateButtons();
   requestGalleryMotionUpdate();
+
+  const controller = { scrollToItem, getCurrentIndex };
+
+  new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      activeGalleryController = controller;
+    } else if (activeGalleryController === controller) {
+      activeGalleryController = null;
+    }
+  }, { threshold: 0.3 }).observe(gallery);
+});
+
+document.addEventListener("keydown", (e) => {
+  if (!activeGalleryController) return;
+  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+  e.preventDefault();
+  activeGalleryController.scrollToItem(
+    activeGalleryController.getCurrentIndex() + (e.key === "ArrowRight" ? 1 : -1)
+  );
 });
 
 // Segmented image viewer
@@ -161,6 +182,10 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
   let isFrontActive = true;
 
   // Initialize layer stack
+  const initSelected = buttons.find((b) => b.classList.contains("is-selected"));
+  if (initSelected && initSelected.dataset.image) {
+    front.style.backgroundImage = `url('${initSelected.dataset.image}')`;
+  }
   front.style.opacity = "1";
   front.style.zIndex = "1";
   back.style.opacity = "0";
@@ -186,21 +211,21 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
       const incoming = isFrontActive ? back : front;
       const outgoing = isFrontActive ? front : back;
 
-      incoming.src = newSrc;
-      incoming.style.zIndex = "1";
-      outgoing.style.zIndex = "0";
-
       const doFade = () => {
-        incoming.style.opacity = "1";
-        outgoing.style.opacity = "0";
-        isFrontActive = !isFrontActive;
+        incoming.style.backgroundImage = `url('${newSrc}')`;
+        incoming.style.zIndex = "1";
+        outgoing.style.zIndex = "0";
+        requestAnimationFrame(() => {
+          incoming.style.opacity = "1";
+          outgoing.style.opacity = "0";
+          isFrontActive = !isFrontActive;
+        });
       };
 
-      if (incoming.complete && incoming.naturalWidth > 0) {
-        doFade();
-      } else {
-        incoming.onload = doFade;
-      }
+      const preloader = new Image();
+      preloader.src = newSrc;
+      if (preloader.complete && preloader.naturalWidth > 0) doFade();
+      else preloader.onload = doFade;
     }
 
     if (caption && newCaption) {
@@ -394,5 +419,227 @@ if (shelfItemsSection) {
     if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     const next = currentIndex + (e.key === "ArrowRight" ? 1 : -1);
     if (next >= 0 && next < images.length) updatePositions(next);
+  });
+}
+
+// Shelf Style reveal
+const shelfStyleImages = document.querySelector(".shelf-style-images");
+const shelfStyleSection = document.querySelector(".shelf-style-section");
+
+if (shelfStyleImages && shelfStyleSection) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    shelfStyleImages.classList.add("is-visible");
+  } else {
+    new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) shelfStyleImages.classList.add("is-visible");
+    // Increase rootMargin bottom offset (more negative = triggers later/deeper into scroll)
+    }, { threshold: 0, rootMargin: "0px 0px -85% 0px" }).observe(shelfStyleSection);
+  }
+}
+
+// Shelf Spaces & Rooms
+const shelfSpacesSection = document.querySelector(".shelf-spaces-section");
+
+if (shelfSpacesSection) {
+  const [bgFront, bgBack] = shelfSpacesSection.querySelectorAll(".shelf-spaces-bg-img");
+  const imageGroup = shelfSpacesSection.querySelector(".shelf-spaces-image-group");
+  const itemsClip = shelfSpacesSection.querySelector(".shelf-spaces-items-clip");
+  const darken = shelfSpacesSection.querySelector(".shelf-spaces-darken");
+  const sheetClip = shelfSpacesSection.querySelector(".shelf-spaces-sheet-clip");
+  const prevBtn = shelfSpacesSection.querySelector(".shelf-spaces-side-prev .gallery-button");
+  const nextBtn = shelfSpacesSection.querySelector(".shelf-spaces-side-next .gallery-button");
+  const segButtons = Array.from(shelfSpacesSection.querySelectorAll(".segmented-button"));
+  const indicator = shelfSpacesSection.querySelector(".segmented-indicator");
+  const caption = shelfSpacesSection.querySelector(".shelf-spaces-caption");
+
+  const ITEM_W = 375.38;
+  const BG_SRCS = [
+    "assets/images/Shelf/space-1.avif",
+    "assets/images/Shelf/space-2.avif",
+    "assets/images/Shelf/space-3.avif",
+  ];
+  const CAPTIONS = [
+    "Placeholder caption for Spaces, sp-1.",
+    "Placeholder caption for Spaces, sp-2.",
+    "Placeholder caption for Spaces, sp-3.",
+    "Placeholder caption for Rooms.",
+  ];
+
+  let spaceIdx = 0;
+  let isRoom = false;
+  let isBgFrontActive = true;
+  let lastBgIdx = 0;
+
+  ["space-2.avif", "space-3.avif"].forEach((n) => { new Image().src = `assets/images/Shelf/${n}`; });
+
+  const positionIndicator = (btn) => {
+    if (!indicator || !btn) return;
+    const trackRect = indicator.parentElement.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    indicator.style.left = `${btnRect.left - trackRect.left}px`;
+    indicator.style.width = `${btnRect.width}px`;
+  };
+
+  const crossfadeBg = (idx) => {
+    if (idx === lastBgIdx) return;
+    lastBgIdx = idx;
+    const incoming = isBgFrontActive ? bgBack : bgFront;
+    const outgoing = isBgFrontActive ? bgFront : bgBack;
+    const doFade = () => {
+      incoming.style.backgroundImage = `url('${BG_SRCS[idx]}')`;
+      incoming.style.zIndex = "1";
+      outgoing.style.zIndex = "0";
+      requestAnimationFrame(() => {
+        incoming.style.opacity = "1";
+        outgoing.style.opacity = "0";
+        isBgFrontActive = !isBgFrontActive;
+      });
+    };
+    const preloader = new Image();
+    preloader.src = BG_SRCS[idx];
+    if (preloader.complete && preloader.naturalWidth > 0) doFade();
+    else preloader.onload = doFade;
+  };
+
+  let currentCaptionText = "";
+  const setCaption = (text) => {
+    if (!caption || text === currentCaptionText) return;
+    currentCaptionText = text;
+    caption.classList.add("is-transitioning");
+    setTimeout(() => {
+      caption.textContent = text;
+      caption.classList.remove("is-transitioning");
+    }, 180);
+  };
+
+  let roomExitTimer = null;
+
+  const enterRoom = () => {
+    if (isRoom) return;
+    isRoom = true;
+    clearTimeout(roomExitTimer);
+    spaceIdx = 2;
+    itemsClip.scrollTo({ left: 2 * ITEM_W, behavior: "smooth" });
+    crossfadeBg(2);
+    darken.style.opacity = "1";
+    darken.style.pointerEvents = "auto";
+    imageGroup.classList.add("is-room");
+    sheetClip.classList.add("is-room");
+    segButtons.forEach((btn, i) => btn.classList.toggle("is-selected", i === 1));
+    positionIndicator(segButtons[1]);
+    setCaption(CAPTIONS[3]);
+    prevBtn.disabled = false;
+    nextBtn.disabled = true;
+  };
+
+  const exitRoom = () => {
+    if (!isRoom) return;
+    isRoom = false;
+    darken.style.opacity = "0";
+    darken.style.pointerEvents = "none";
+    sheetClip.classList.remove("is-room");
+    clearTimeout(roomExitTimer);
+    roomExitTimer = setTimeout(() => imageGroup.classList.remove("is-room"), 620);
+    segButtons.forEach((btn, i) => btn.classList.toggle("is-selected", i === 0));
+    positionIndicator(segButtons[0]);
+    setCaption(CAPTIONS[spaceIdx]);
+    prevBtn.disabled = spaceIdx === 0;
+    nextBtn.disabled = false;
+  };
+
+  const goToSpace = (idx) => {
+    idx = Math.max(0, Math.min(2, idx));
+    if (isRoom) exitRoom();
+    spaceIdx = idx;
+    crossfadeBg(idx);
+    itemsClip.scrollTo({ left: idx * ITEM_W, behavior: "smooth" });
+    setCaption(CAPTIONS[idx]);
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = false;
+  };
+
+  // Live background crossfade as user drags items
+  let scrollBgIdx = 0;
+  let settleTimer = null;
+
+  itemsClip.addEventListener("scroll", () => {
+    if (isRoom) return;
+    const bgIdx = Math.min(2, Math.round(itemsClip.scrollLeft / ITEM_W));
+    if (bgIdx !== scrollBgIdx) {
+      scrollBgIdx = bgIdx;
+      crossfadeBg(bgIdx);
+    }
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(() => {
+      spaceIdx = Math.min(2, Math.round(itemsClip.scrollLeft / ITEM_W));
+      prevBtn.disabled = spaceIdx === 0;
+      setCaption(CAPTIONS[spaceIdx]);
+    }, 150);
+  }, { passive: true });
+
+  // Swipe past last item → room
+  let spTouchX = null;
+  let spTouchScrollLeft = null;
+
+  itemsClip.addEventListener("touchstart", (e) => {
+    spTouchX = e.touches[0].clientX;
+    spTouchScrollLeft = itemsClip.scrollLeft;
+  }, { passive: true });
+
+  itemsClip.addEventListener("touchend", (e) => {
+    if (spTouchX === null) return;
+    const dx = e.changedTouches[0].clientX - spTouchX;
+    const wasAtEnd = spTouchScrollLeft >= (2 * ITEM_W - 8);
+    spTouchX = null;
+    spTouchScrollLeft = null;
+    if (dx < -50 && wasAtEnd && !isRoom) enterRoom();
+  }, { passive: true });
+
+  prevBtn.addEventListener("click", () => {
+    if (isRoom) exitRoom();
+    else goToSpace(spaceIdx - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (isRoom) return;
+    if (spaceIdx >= 2) enterRoom();
+    else goToSpace(spaceIdx + 1);
+  });
+
+  segButtons[0].addEventListener("click", () => { if (isRoom) exitRoom(); });
+  segButtons[1].addEventListener("click", () => { if (!isRoom) enterRoom(); });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const rect = shelfSpacesSection.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    e.preventDefault();
+    if (e.key === "ArrowLeft") {
+      if (isRoom) exitRoom();
+      else goToSpace(spaceIdx - 1);
+    } else {
+      if (isRoom) return;
+      if (spaceIdx >= 2) enterRoom();
+      else goToSpace(spaceIdx + 1);
+    }
+  });
+
+  // Initialize
+  bgFront.style.backgroundImage = `url('${BG_SRCS[0]}')`;
+  currentCaptionText = CAPTIONS[0];
+  bgFront.style.opacity = "1";
+  bgFront.style.zIndex = "1";
+  bgBack.style.opacity = "0";
+  bgBack.style.zIndex = "0";
+  darken.style.opacity = "0";
+  darken.style.pointerEvents = "none";
+  itemsClip.scrollLeft = 0;
+  prevBtn.disabled = true;
+  nextBtn.disabled = false;
+
+  requestAnimationFrame(() => {
+    indicator.style.transition = "none";
+    positionIndicator(segButtons[0]);
+    requestAnimationFrame(() => { indicator.style.transition = ""; });
   });
 }
