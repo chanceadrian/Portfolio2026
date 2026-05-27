@@ -58,10 +58,6 @@ body {
   font-family: var(--font-family-system);
 }
 
-body.theme-light {
-  background: var(--background-secondary);
-}
-
 body.theme-dark {
   background: var(--background-primary);
   color: var(--label-primary);
@@ -524,7 +520,8 @@ figure {
 
 .shelf-style-section {
   gap: 64px;
-  background: var(--background-primary);
+  padding-bottom: 240px;
+  background: linear-gradient(to bottom, var(--background-primary) 30%, var(--background-secondary) 100%);
 }
 
 .shelf-style-view {
@@ -594,6 +591,217 @@ figure {
     animation: none !important;
   }
 }
+
+/* ── Shelf — Devices ─────────────────────────────────────── */
+
+.shelf-devices-outer {
+  background: var(--background-primary);
+}
+
+.shelf-devices-section {
+  position: relative;
+  gap: 64px;
+  max-width: 1780px;
+  margin: 0 auto;
+  padding: 80px 0;
+  background: var(--background-secondary);
+  overflow: hidden;
+  transition: border-radius 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1780px) {
+  .shelf-devices-section.is-vision {
+    border-radius: 36px;
+  }
+}
+
+.shelf-devices-env-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/images/Shelf/environment-1.avif');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shelf-devices-section.is-vision .shelf-devices-env-bg {
+  opacity: 1;
+}
+
+.shelf-devices-text-view,
+.shelf-devices-scroll-wrapper,
+.shelf-devices-segmented {
+  position: relative;
+  z-index: 1;
+}
+
+.segmented-control.shelf-devices-segmented {
+  max-width: 480px;
+  margin-top: -42px;
+}
+
+.shelf-devices-text-view {
+  align-items: flex-start;
+  padding: 0 24px;
+}
+
+.body-copy.shelf-devices-copy {
+  max-width: 640px;
+  transition: color 600ms ease;
+}
+
+.shelf-devices-copy span {
+  color: var(--label-primary);
+  transition: color 600ms ease;
+}
+
+.shelf-devices-section.is-vision .body-copy.shelf-devices-copy {
+  color: rgba(235, 235, 245, 0.7);
+}
+
+.shelf-devices-section.is-vision .shelf-devices-copy span {
+  color: #ffffff;
+}
+
+/* Scroll gallery */
+.shelf-devices-scroll-wrapper {
+  width: 100%;
+}
+
+.shelf-devices-scroll {
+  position: relative;
+  overflow: hidden;
+  height: 800px;
+  width: 100%;
+}
+
+.shelf-devices-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shelf-devices-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* iPad stacked images */
+.shelf-ipad-stack {
+  position: relative;
+  width: 1067px;
+  height: 760px;
+  flex-shrink: 0;
+}
+
+.shelf-ipad-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: top center;
+  transition: opacity 800ms linear;
+}
+
+/* Replay button */
+.shelf-ipad-replay {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 16px;
+  margin-right: 34px;
+  align-self: flex-end;
+  padding: 0;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--label-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  pointer-events: none;
+  transition: color 400ms ease, opacity 400ms ease;
+}
+
+.shelf-ipad-replay svg {
+  display: inline-block;
+  flex-shrink: 0;
+  max-width: none;
+  position: relative;
+  top: 1px;
+}
+
+/* Mac and Vision Pro images */
+.shelf-devices-img {
+  max-height: 798px;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: top center;
+}
+
+
+.shelf-devices-item[data-device="mac"] .shelf-devices-img {
+  width: 1242px;
+  height: 760px;
+  min-width: 1242px;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+}
+
+/* Devices segmented control */
+.shelf-devices-segmented .segmented-track {
+  background: #ffffff;
+  overflow: hidden;
+  transition: background 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shelf-devices-segmented .segmented-indicator {
+  background: #ededf0;
+  transition:
+    left 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    width 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shelf-devices-segmented .segmented-button {
+  transition: color 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shelf-devices-section.is-vision .shelf-devices-segmented .segmented-track {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.shelf-devices-section.is-vision .shelf-devices-segmented .segmented-indicator {
+  background: rgba(235, 235, 245, 0.3);
+}
+
+.shelf-devices-section.is-vision .shelf-devices-segmented .segmented-button {
+  color: rgba(235, 235, 245, 0.7);
+}
+
+.shelf-devices-section.is-vision .shelf-devices-segmented .segmented-button.is-selected {
+  color: rgba(235, 235, 245, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-devices-env-bg,
+  .shelf-ipad-layer,
+  .shelf-devices-item {
+    transition: none;
+  }
+}
+
 
 /* ── Shelf — Spaces & Rooms ──────────────────────────────── */
 
@@ -792,6 +1000,40 @@ figure {
   overflow: hidden;
 }
 
+.indecision.first-section {
+  padding-bottom: 160px;
+}
+
+.indecision.first-section .body-copy {
+  max-width: 760px;
+}
+
+.indecision.first-section .body-copy span {
+  color: var(--label-primary);
+}
+
+.indecision-chip {
+  padding: 3px 6px;
+  background: rgba(197, 58, 0, 0.14);
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: #C53A00;
+}
+
+.indecision-link-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.indecision-inline-link {
+  --inline-link-color: #0066CC;
+}
+
 .indecision-hero {
   display: flex;
   justify-content: center;
@@ -843,6 +1085,203 @@ figure {
 
 .indecision .indecision-hero-image-3 {
   animation: indecisionHeroFan3Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) 170ms both;
+}
+
+/* ── InDecision — New Decision ───────────────────────────── */
+
+.indecision-new-section {
+  gap: 64px;
+}
+
+.indecision-new-section .eyebrow,
+.indecision-oc-section .eyebrow {
+  width: 100%;
+  max-width: 840px;
+  justify-content: left;
+}
+
+.indecision-new-headline,
+.indecision-oc-headline,
+.indecision-bp-headline,
+.indecision-new-body {
+  width: 100%;
+  max-width: 840px;
+}
+
+.indecision-new-image-view {
+  position: relative;
+  width: 980px;
+  height: 674px;
+}
+
+.indecision-new-img {
+  position: absolute;
+  max-width: none;
+  opacity: 0;
+  /* Exit timing — used when is-revealed is removed */
+  transition: opacity 650ms ease-in, transform 650ms ease-in;
+}
+
+.indecision-new-img-1 {
+  left: -24.5px;
+  top: 136.46px;
+  width: 255.83px;
+  height: 523.02px;
+  z-index: 1;
+  transform: translateX(-48px);
+}
+
+.indecision-new-img-2 {
+  left: -14.91px;
+  top: -49.96px;
+  width: 1110.67px;
+  height: 724.35px;
+  z-index: 0;
+  transform: translateX(72px);
+}
+
+/* Reveal — transition props on this state apply when is-revealed is added */
+.indecision-new-section.is-revealed .indecision-new-img-2 {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1600ms cubic-bezier(0.25, 1, 0.4, 1) 60ms,
+              transform 1600ms cubic-bezier(0.25, 1, 0.4, 1) 60ms;
+}
+.indecision-new-section.is-revealed .indecision-new-img-1 {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1600ms cubic-bezier(0.25, 1, 0.4, 1) 280ms,
+              transform 1600ms cubic-bezier(0.25, 1, 0.4, 1) 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indecision-new-img-1,
+  .indecision-new-img-2 {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.indecision-new-body span {
+  color: var(--label-primary);
+}
+
+
+/* ── InDecision — Options & Criteria ─────────────────────── */
+
+.indecision-oc-section {
+  gap: 64px;
+  background: var(--background-secondary);
+}
+
+.indecision-oc-headline {
+  width: 100%;
+  max-width: 840px;
+}
+
+.indecision-oc-imgs {
+  position: relative;
+  width: 1080px;
+  height: 769px;
+  flex-shrink: 0;
+}
+
+.indecision-oc-imgs .image-frame-img {
+  width: 1080px;
+  height: 769px;
+}
+
+.indecision-oc-section .image-viewer,
+.indecision-bp-section .image-viewer {
+  gap: 22px;
+}
+
+.indecision-oc-section .viewer-caption,
+.indecision-bp-section .viewer-caption {
+  max-width: 580px;
+}
+
+.indecision-oc-section .segmented-track,
+.indecision-bp-section .segmented-track {
+  background: #fff;
+  overflow: hidden;
+}
+
+.indecision-oc-section .segmented-indicator,
+.indecision-bp-section .segmented-indicator {
+  background: #ededf0;
+}
+
+.indecision-bp-section {
+  gap: 64px;
+  background: linear-gradient(to bottom, var(--background-primary), var(--background-secondary) 60%);
+}
+
+
+.indecision-showcase-section {
+  padding-bottom: 0;
+  gap: 64px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--background-primary), var(--background-secondary));
+}
+
+.indecision-showcase-headline {
+  max-width: 740px;
+}
+
+.indecision-showcase-frame {
+  width: 840px;
+  height: 1040px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.indecision-showcase-img {
+  display: block;
+  width: 840px;
+  height: 1180px;
+  max-width: none;
+}
+
+.indecision-showcase-section .indecision-showcase-frame {
+  opacity: 0;
+  transform: scale(0.88);
+  transform-origin: bottom center;
+  transition: opacity 650ms ease-in, transform 650ms ease-in;
+}
+
+.indecision-showcase-section.is-revealed .indecision-showcase-frame {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 2000ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 2000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Behind the Design — shared layout ──────────────────── */
+
+.nasa-btd-section,
+.indecision-btd-section,
+.shelf-btd-section,
+.dietary-btd-section {
+  gap: 80px;
+  padding-top: 160px;
+  padding-bottom: 120px;
+}
+
+.nasa-btd-copy,
+.indecision-btd-copy,
+.shelf-btd-copy,
+.dietary-btd-copy {
+  width: min(1260px, calc(100vw - 48px));
+  align-self: center;
+}
+
+.indecision-btd-section {
+  background: var(--background-primary);
+}
+
+.indecision-btd-gallery {
+  --poster-last-item-width: 372px;
 }
 
 .dietary {
@@ -933,12 +1372,281 @@ figure {
   animation-delay: 420ms;
 }
 
+
+/* ── Dietary Sensing — Design ────────────────────────────── */
+
+.dietary-design-section {
+  gap: 64px;
+  padding-bottom: 0;
+  background: linear-gradient(to bottom, var(--background-primary), var(--background-secondary));
+}
+
+.dietary-design-section .text-view {
+  align-items: flex-start;
+}
+
+
+/* ── Dietary Sensing — Trio ──────────────────────────────── */
+
+.dietary-trio-section {
+  background: var(--background-primary);
+  padding-top: 240px;
+  gap: 250px;
+}
+
+.dietary-trio-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 80px;
+}
+
+.dietary-trio-row-right {
+  justify-content: flex-end;
+}
+
+.dietary-trio-copy {
+  width: 385px;
+  flex-shrink: 0;
+}
+
+.dietary-trio-copy .body-copy {
+  max-width: none;
+  padding-top: 0;
+}
+
+.dietary-trio-copy .body-copy span {
+  color: var(--label-primary);
+}
+
+.dietary-trio-frame {
+  width: 426px;
+  height: 654px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.dietary-trio-img {
+  position: absolute;
+  left: -201px;
+  top: -71px;
+  width: 832px;
+  height: 832px;
+  max-width: none;
+}
+
+
+.dietary-trio-copy {
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 500ms ease-in;
+}
+
+.dietary-trio-frame {
+  opacity: 0;
+  transform: scale(0.88) translateY(32px);
+  transform-origin: center top;
+  will-change: transform, opacity;
+  transition: opacity 500ms ease-in, transform 500ms ease-in;
+}
+
+.dietary-trio-row.is-revealed .dietary-trio-copy {
+  opacity: 1;
+  transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+}
+
+.dietary-trio-row.is-revealed .dietary-trio-frame {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: opacity 1300ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dietary-trio-copy,
+  .dietary-trio-frame {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .dietary-duo-img-front,
+  .dietary-duo-img-back {
+    animation: none;
+  }
+}
+
+/* ── Dietary — Duo Section ───────────────────────────────── */
+
+.dietary-duo-section {
+  padding-top: 200px;
+  padding-bottom: 200px;
+  gap: 80px;
+  background: var(--background-secondary);
+}
+
+.dietary-duo-frame {
+  width: 724px;
+  height: 712px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dietary-duo-img {
+  position: absolute;
+  max-width: none;
+}
+
+.dietary-duo-img-back {
+  left: 45px;
+  top: -71px;
+  width: 906px;
+  height: 906px;
+  z-index: 1;
+}
+
+.dietary-duo-img-front {
+  left: -239px;
+  top: -67.5px;
+  width: 899px;
+  height: 899px;
+  z-index: 2;
+}
+
+.dietary-duo-copy {
+  max-width: 680px;
+  padding-top: 0;
+}
+
+.dietary-duo-copy span {
+  color: var(--label-primary);
+}
+
+
+/* ── Duo scroll-driven keyframes ─────────────────────────── */
+
+@keyframes duo-converge-front {
+  from { opacity: 0; transform: translateX(-80px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes duo-converge-back {
+  from { opacity: 0; transform: translateX(80px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes duo-rise-back {
+  from { opacity: 0; transform: translateY(60px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes duo-rise-front {
+  from { opacity: 0; transform: translateY(60px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes duo-scatter-front {
+  from { opacity: 0; transform: scale(0.82) translateX(-50px); }
+  to   { opacity: 1; transform: scale(1) translateX(0); }
+}
+
+@keyframes duo-scatter-back {
+  from { opacity: 0; transform: scale(0.82) translateX(50px); }
+  to   { opacity: 1; transform: scale(1) translateX(0); }
+}
+
+
+@supports (animation-timeline: view()) {
+
+  .dietary-duo-frame {
+    view-timeline: --duo-frame block;
+  }
+
+  /* Option 1: Converge — glide toward each other from opposite sides */
+  [data-duo-anim="1"] .dietary-duo-img-front {
+    animation: duo-converge-front linear both;
+    animation-timeline: --duo-frame;
+    animation-range: entry 0% cover 45%;
+  }
+
+  [data-duo-anim="1"] .dietary-duo-img-back {
+    animation: duo-converge-back linear both;
+    animation-timeline: --duo-frame;
+    animation-range: entry 10% cover 55%;
+  }
+
+  /* Option 2: Rise Together — float up, foreground blooms in with depth delay */
+  [data-duo-anim="2"] .dietary-duo-img-back {
+    animation: duo-rise-back linear both;
+    animation-timeline: --duo-frame;
+    animation-range: entry 0% cover 45%;
+  }
+
+  [data-duo-anim="2"] .dietary-duo-img-front {
+    animation: duo-rise-front linear both;
+    animation-timeline: --duo-frame;
+    animation-range: entry 15% cover 55%;
+  }
+
+  /* Option 3: Scatter → Land — zoom in from spread positions */
+  [data-duo-anim="3"] .dietary-duo-img-front {
+    animation: duo-scatter-front linear both;
+    animation-timeline: --duo-frame;
+    animation-range: entry 0% cover 45%;
+  }
+
+  [data-duo-anim="3"] .dietary-duo-img-back {
+    animation: duo-scatter-back linear both;
+    animation-timeline: --duo-frame;
+    animation-range: entry 10% cover 50%;
+  }
+
+}
+
+
+.dietary-design-frame {
+  width: 980px;
+  height: 834px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.dietary-design-img {
+  position: absolute;
+  left: -127px;
+  top: 0;
+  width: 1346px;
+  height: 994px;
+  max-width: none;
+}
+
+
 .shelf .text-view {
   animation: shelfCopyZoomSettle 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .shelf .shelf-hero-image {
   animation: shelfHeroSoftRise 1600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+
+/* ── Dietary — Behind the Design ────────────────────────── */
+
+.dietary-btd-section {
+  background: var(--background-primary);
+}
+
+.dietary-btd-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dietary-btd-gallery {
+  --poster-last-item-width: 696px;
 }
 
 
@@ -1528,7 +2236,7 @@ figure {
 .poster-caption {
   max-width: 480px;
   padding: 28px 15px 0;
-  color: var(--label-secondary);
+  color: var(--label-primary);
   font-size: 17px;
   font-weight: 400;
   line-height: 25px;
@@ -1536,15 +2244,10 @@ figure {
 }
 
 .poster-caption span {
-  color: var(--label-primary);
   font-weight: 600;
 }
 
 /* — Refinements specifics — */
-
-.refinements-gallery {
-  --poster-last-item-width: 696px;
-}
 
 .refinements-card-side-1 {
   background-image: url("assets/images/Overview/side-1.avif");
@@ -1773,14 +2476,7 @@ figure {
 /* ── NASA — Behind the Design ───────────────────────────── */
 
 .nasa-btd-section {
-  gap: 80px;
-  padding-block: 120px;
   background: var(--background-secondary);
-}
-
-.nasa-btd-copy {
-  width: min(1260px, calc(100vw - 48px));
-  align-self: center;
 }
 
 .nasa-btd-gallery {
@@ -1790,6 +2486,160 @@ figure {
 .nasa-btd-gallery .poster-card {
   background-color: var(--background-primary);
 }
+
+/* ── Shelf — Reflection Gallery ─────────────────────────── */
+
+.shelf-reflection-section {
+  padding-top: 240px;
+  background: var(--background-secondary);
+  gap: 80px;
+}
+
+.shelf-reflection-copy {
+  width: min(1260px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.shelf-reflection-headline {
+  max-width: 680px;
+}
+
+.shelf-reflection-gallery {
+  --shelf-reflection-last-item-width: 620px;
+}
+
+.shelf-reflection-gallery .item-container {
+  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--shelf-reflection-last-item-width)));
+}
+
+.shelf-reflection-item {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.shelf-reflection-item-small {
+  width: 620px;
+}
+
+.shelf-reflection-item-medium {
+  width: 832px;
+}
+
+.shelf-reflection-item-large {
+  width: 1260px;
+}
+
+.shelf-reflection-card {
+  width: 100%;
+  height: 680px;
+  border-radius: 28px;
+  background: var(--background-primary);
+}
+
+.shelf-reflection-caption {
+  max-width: 760px;
+  padding: 24px 15px 0;
+  color: var(--label-secondary);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0;
+}
+
+.shelf-reflection-caption span {
+  color: var(--label-primary);
+}
+
+
+/* ── Shelf — Mail Gallery ────────────────────────────────── */
+
+.shelf-mail-section {
+  background: var(--background-secondary);
+  gap: 80px;
+}
+
+.shelf-mail-copy {
+  width: min(1260px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.shelf-mail-headline {
+  max-width: 740px;
+}
+
+.shelf-mail-gallery {
+  --shelf-mail-last-item-width: 620px;
+}
+
+.shelf-mail-gallery .item-container {
+  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--shelf-mail-last-item-width)));
+}
+
+.shelf-mail-item {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.shelf-mail-item-small {
+  width: 620px;
+}
+
+.shelf-mail-card {
+  width: 100%;
+  height: 680px;
+  border-radius: 28px;
+  background: var(--background-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.shelf-mail-img {
+  position: absolute;
+  width: 430px;
+  height: 880px;
+  left: 95px;
+  max-width: none;
+}
+
+.shelf-mail-img-top {
+  top: 60px;
+}
+
+.shelf-mail-img-bottom {
+  bottom: 60px;
+}
+
+.shelf-mail-caption {
+  max-width: 760px;
+  padding: 24px 15px 0;
+  color: var(--label-secondary);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0;
+}
+
+.shelf-mail-caption span {
+  color: var(--label-primary);
+}
+
+
+/* ── Shelf — Behind the Design ───────────────────────────── */
+
+.shelf-btd-section {
+  background: var(--background-primary);
+}
+
+.shelf-btd-gallery {
+  --poster-last-item-width: 696px;
+}
+
 
 /* ── Responsive ──────────────────────────────────────────── */
 
@@ -1900,7 +2750,7 @@ figure {
 }
 
 .inline-link {
-  color: #2997ff;
+  color: var(--inline-link-color, #2997ff);
   font-size: 21px;
   line-height: 29px;
   letter-spacing: 0.011em;
@@ -1954,7 +2804,7 @@ figure {
   height: 747.27px;
   background-size: cover;
   background-position: center;
-  transition: opacity 360ms ease;
+  transition: background-image 360ms ease;
 }
 
 .segmented-control {
@@ -2035,7 +2885,7 @@ figure {
 }
 
 .nasa-gallery-section {
-  height: 860px;
+  height: 940px;
   padding: 0;
   background: var(--background-secondary);
   overflow: hidden;
