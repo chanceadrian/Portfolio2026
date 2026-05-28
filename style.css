@@ -2204,12 +2204,12 @@ figure {
 
 /* — Poster Gallery: shared component — */
 
-.poster-gallery {
-  --poster-last-item-width: 696px;
+.poster-gallery .item-container {
+  padding-right: var(--gallery-frame-gutter);
 }
 
-.poster-gallery .item-container {
-  padding-right: calc(var(--gallery-frame-gutter) + (var(--gallery-frame-width) - var(--poster-last-item-width)));
+.poster-gallery .item-container > :last-child {
+  margin-right: calc(var(--gallery-frame-width) - var(--poster-item-width));
 }
 
 .poster-item {
@@ -2218,11 +2218,13 @@ figure {
 }
 
 .poster-item-small {
-  width: 372px;
+  --poster-item-width: 372px;
+  width: var(--poster-item-width);
 }
 
 .poster-item-medium {
-  width: 696px;
+  --poster-item-width: 696px;
+  width: var(--poster-item-width);
 }
 
 .poster-card {
@@ -2234,6 +2236,15 @@ figure {
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-card-img {
+  display: block;
+  max-width: 80%;
+  height: auto;
 }
 
 .poster-caption {
@@ -2677,14 +2688,10 @@ figure {
     max-width: 100%;
   }
 
-  .refinements-gallery,
-  .nasa-btd-gallery {
-    --poster-last-item-width: calc(100vw - 40px);
-  }
-
   .poster-item-small,
   .poster-item-medium {
-    width: calc(100vw - 40px);
+    --poster-item-width: calc(100vw - 40px);
+    width: var(--poster-item-width);
   }
 
   .poster-card {
