@@ -258,6 +258,7 @@ figure {
   font-weight: 600;
   line-height: 32px;
   letter-spacing: 0.007em;
+  text-wrap: balance;
 }
 
 .first-section .eyebrow {
@@ -295,6 +296,7 @@ figure {
   font-weight: 600;
   line-height: 68px;
   letter-spacing: 0;
+  text-wrap: balance;
 }
 
 .overview .headline {
@@ -1808,6 +1810,7 @@ figure {
   font-weight: 600;
   line-height: 32px;
   letter-spacing: 0.007em;
+  text-wrap: pretty;
 }
 
 .overview .body-copy {
@@ -2241,6 +2244,7 @@ figure {
   font-weight: 400;
   line-height: 25px;
   letter-spacing: 0;
+  text-wrap: pretty;
 }
 
 .poster-caption span {
@@ -2467,6 +2471,7 @@ figure {
   font-weight: 600;
   line-height: 25px;
   letter-spacing: 0;
+  text-wrap: pretty;
 }
 
 .anomaly-caption span {
@@ -2547,6 +2552,7 @@ figure {
   font-weight: 600;
   line-height: 25px;
   letter-spacing: 0;
+  text-wrap: pretty;
 }
 
 .shelf-reflection-caption span {
@@ -2623,6 +2629,7 @@ figure {
   font-weight: 600;
   line-height: 25px;
   letter-spacing: 0;
+  text-wrap: pretty;
 }
 
 .shelf-mail-caption span {
@@ -2870,7 +2877,8 @@ figure {
   line-height: 29px;
   letter-spacing: 0.011em;
   text-align: center;
-  transition: opacity 200ms ease, transform 200ms ease;
+  text-wrap: pretty;
+  transition: opacity 200ms ease, transform 200ms ease, height 200ms ease;
 }
 
 .viewer-caption.is-transitioning {

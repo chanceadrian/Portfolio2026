@@ -195,6 +195,29 @@ document.addEventListener("keydown", (e) => {
 let activeImageViewer = null;
 const viewerNavigators = new Map();
 
+function swapCaption(caption, newText) {
+  const oldH = caption.offsetHeight;
+  caption.style.height = oldH + "px";
+  caption.classList.add("is-transitioning");
+  setTimeout(() => {
+    caption.style.transition = "none";
+    caption.textContent = newText;
+    caption.style.height = "auto";
+    const newH = caption.offsetHeight;
+    caption.style.height = oldH + "px";
+    void caption.offsetHeight;
+    caption.style.transition = "";
+    caption.classList.remove("is-transitioning");
+    caption.style.height = newH + "px";
+    caption.addEventListener("transitionend", function onEnd(e) {
+      if (e.propertyName === "height") {
+        caption.style.height = "";
+        caption.removeEventListener("transitionend", onEnd);
+      }
+    });
+  }, 180);
+}
+
 document.querySelectorAll(".image-viewer").forEach((viewer) => {
   const frame = viewer.querySelector(".image-frame-img");
   const caption = viewer.querySelector(".viewer-caption");
@@ -239,11 +262,7 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
     }
 
     if (caption && button.dataset.caption) {
-      caption.classList.add("is-transitioning");
-      setTimeout(() => {
-        caption.textContent = button.dataset.caption;
-        caption.classList.remove("is-transitioning");
-      }, 180);
+      swapCaption(caption, button.dataset.caption);
     }
   };
 
@@ -648,10 +667,10 @@ if (shelfSpacesSection) {
     "assets/images/Shelf/space-3.avif",
   ];
   const CAPTIONS = [
-    "Placeholder caption for Spaces, sp-1.",
-    "Placeholder caption for Spaces, sp-2.",
-    "Placeholder caption for Spaces, sp-3.",
-    "Placeholder caption for Rooms.",
+    "Create dedicated spaces for work, travel, study, relationships, hobbies, and the things you return to most.",
+    "Spaces make it easy to separate and revisit different collections without losing their atmosphere or sense of organization.",
+    "Each space holds a finite number of items, encouraging more intentional display and helping what matters most stay visible.",
+    "Rooms expand a space without losing its personality, preserving the same atmosphere, organization, and visual identity while making room for more.",
   ];
 
   let spaceIdx = 0;
@@ -694,11 +713,7 @@ if (shelfSpacesSection) {
   const setCaption = (text) => {
     if (!caption || text === currentCaptionText) return;
     currentCaptionText = text;
-    caption.classList.add("is-transitioning");
-    setTimeout(() => {
-      caption.textContent = text;
-      caption.classList.remove("is-transitioning");
-    }, 180);
+    swapCaption(caption, text);
   };
 
   let roomExitTimer = null;
