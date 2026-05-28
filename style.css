@@ -230,7 +230,7 @@ figure {
 }
 
 .view {
-  width: min(87.5vw, 1260px);
+  width: min(87.5vw, 980px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2289,7 +2289,7 @@ figure {
 }
 
 .anomaly-split {
-  width: min(1260px, 100%);
+  width: min(1316px, 100%);
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -2716,7 +2716,15 @@ figure {
     align-items: flex-start;
   }
 
+  .nav {
+    flex-shrink: 0;
+  }
+
   .indecision-hero-stack {
+    flex-shrink: 0;
+  }
+
+  .dietary-hero-stack {
     flex-shrink: 0;
   }
 
