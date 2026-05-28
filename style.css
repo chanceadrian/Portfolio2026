@@ -1274,7 +1274,7 @@ figure {
 .indecision-btd-copy,
 .shelf-btd-copy,
 .dietary-btd-copy {
-  width: min(1260px, calc(100vw - 48px));
+  width: min(1260px, 87.5vw);
   align-self: center;
 }
 
@@ -1399,12 +1399,12 @@ figure {
 .dietary-trio-row {
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 80px;
 }
 
 .dietary-trio-row-right {
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .dietary-trio-copy {
@@ -2185,7 +2185,7 @@ figure {
 
 .refinements-copy {
   width: var(--gallery-frame-width, min(1260px, calc(100vw - 48px)));
-  max-width: min(1260px, calc(100vw - 48px));
+  max-width: min(1260px, 87.5vw);
   align-items: flex-start;
   text-align: left;
 }
@@ -2462,7 +2462,7 @@ figure {
   top: 40px;
   left: 50%;
   transform: translateX(-50%);
-  max-width: none;
+  max-width: calc(100% - 80px);
   height: auto;
 }
 
@@ -2516,7 +2516,7 @@ figure {
 }
 
 .shelf-reflection-copy {
-  width: min(1260px, calc(100vw - 48px));
+  width: min(1260px, 87.5vw);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2587,7 +2587,7 @@ figure {
 }
 
 .shelf-mail-copy {
-  width: min(1260px, calc(100vw - 48px));
+  width: min(1260px, 87.5vw);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2630,7 +2630,8 @@ figure {
   position: absolute;
   width: 430px;
   height: 880px;
-  left: 95px;
+  left: 50%;
+  transform: translateX(-50%);
   max-width: none;
 }
 
