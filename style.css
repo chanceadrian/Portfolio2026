@@ -3074,6 +3074,43 @@ figure {
   white-space: nowrap;
 }
 
+
+/* ── Mobile Pause ────────────────────────────────────────── */
+
+.mobile-pause {
+  display: none;
+}
+
+@media (max-width: 734px) {
+  .mobile-pause {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    background: var(--background-secondary);
+  }
+
+  .mobile-pause-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    max-width: 360px;
+  }
+
+  .mobile-pause .inline-link {
+    color: #0066cc;
+  }
+
+  .mobile-pause .inline-icon path {
+    fill: #0066cc;
+  }
+}
+
 .inline-icon {
   display: inline-block;
   vertical-align: middle;
