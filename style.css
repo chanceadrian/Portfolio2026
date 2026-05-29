@@ -2563,6 +2563,56 @@ figure {
   height: 680px;
   border-radius: 28px;
   background: var(--background-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.shelf-reflection-img-1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 680px;
+  height: auto;
+  max-width: none;
+  padding-top: 40px;
+}
+
+.shelf-reflection-card-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shelf-reflection-img-holder {
+  position: relative;
+  width: 914px;
+  height: 519px;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.shelf-reflection-img-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 999.92px;
+  height: auto;
+  max-width: none;
+}
+
+.shelf-reflection-card-3 {
+  background: url('assets/images/Shelf/reflect-3.avif') center / cover no-repeat;
+}
+
+.shelf-reflection-img-4 {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 430px;
+  height: auto;
+  max-width: calc(100% - 80px);
 }
 
 .shelf-reflection-caption {
