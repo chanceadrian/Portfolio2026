@@ -2611,7 +2611,20 @@ figure {
 }
 
 .shelf-reflection-card-3 {
-  background: url('assets/images/Shelf/reflect-3.avif') center / cover no-repeat;
+  background: url('assets/images/Shelf/reflect-3.avif') left center / cover no-repeat;
+  container-type: inline-size;
+}
+
+@container (max-width: 375px) {
+  .shelf-reflection-card-3 {
+    background-position: center;
+  }
+}
+
+@media (max-width: 880px) {
+  .shelf-reflection-card-3 {
+    background-image: url('assets/images/Shelf/reflect-3-small.avif');
+  }
 }
 
 .shelf-reflection-img-4 {
@@ -2913,9 +2926,10 @@ figure {
   }
 
   .shelf-spaces-image-group {
-    height: min(820px, calc(100vh - 48px));
-    width: calc(min(820px, calc(100vh - 48px)) * 420 / 859);
-    flex: 0 0 calc(min(820px, calc(100vh - 48px)) * 420 / 859);
+    transform: scale(calc(min(820px, calc(100vh - 48px)) / 859px));
+    transform-origin: top center;
+    margin-inline: calc((420px * min(820px, calc(100vh - 48px)) / 859px - 420px) / 2);
+    margin-bottom: calc(min(820px, calc(100vh - 48px)) - 859px);
   }
 
   .shelf-style-images {
@@ -3047,9 +3061,7 @@ figure {
   }
 
   .shelf-reflection-img-holder {
-    transform: scale(0.95);
     transform-origin: left;
-    max-width: calc(100% + 200px);
   }
 
   .shelf-reflection-img-4 {
@@ -3067,6 +3079,10 @@ figure {
     top: 50%;
     bottom: auto;
     transform: translate(-50%, -50%);
+  }
+
+  .nasa-gallery-section {
+    height: min(720px, calc(100vh - 200px));
   }
 
   .split-view {
