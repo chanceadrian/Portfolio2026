@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(awk -F: '$1 > 2800 && $1 < 3100')",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(awk -F: '$1 > 2930 && $1 < 3000')",
+      "Bash(awk -F: '$1 > 3080 && $1 < 3200')"
     ]
   }
 }

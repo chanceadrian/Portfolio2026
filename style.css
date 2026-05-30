@@ -2905,6 +2905,12 @@ figure {
     height: min(820px, calc(100vh - 48px));
   }
 
+  .shelf-spaces-image-group {
+    height: min(820px, calc(100vh - 48px));
+    width: calc(min(820px, calc(100vh - 48px)) * 420 / 859);
+    flex: 0 0 calc(min(820px, calc(100vh - 48px)) * 420 / 859);
+  }
+
   .shelf-style-images {
     transform: scale(0.84);
     transform-origin: top center;
@@ -2922,8 +2928,20 @@ figure {
     width: 100%;
   }
 
+  .shelf-item-word {
+    font-size: 56px;
+    line-height: 60px;
+    letter-spacing: -0.005em;
+  }
+
+  .shelf-item-icon {
+    zoom: 0.8;
+  }
+
   .shelf-items-tagline {
     max-width: 580px;
+    font-size: 24px;
+    line-height: 28px;
   }
 
   .shelf-items-gallery {
@@ -2936,14 +2954,14 @@ figure {
 
   .shelf-gallery-frame {
     width: 100vw;
-    height: 760px;
+    height: 628px;
     display: flex;
     gap: 24px;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-padding-left: var(--gallery-frame-gutter);
     padding-left: var(--gallery-frame-gutter);
-    padding-right: calc(100vw - var(--gallery-frame-gutter) - 372px);
+    padding-right: calc(100vw - var(--gallery-frame-gutter) - 307px);
     border-radius: 0;
     scrollbar-width: none;
   }
@@ -2955,16 +2973,16 @@ figure {
   .shelf-gallery-img {
     position: relative;
     inset: auto;
-    flex: 0 0 372px;
-    width: 372px;
-    height: 760px;
+    flex: 0 0 auto;
+    width: auto;
+    height: 628px;
     opacity: 1;
     transform: none;
     transition: none;
     scroll-snap-align: start;
     will-change: auto;
     border-radius: 40px;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .shelf-gallery-controls {
@@ -3080,6 +3098,11 @@ figure {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .gallery-card-shelf {
+    --shelf-gallery-overlap: 90px;
+    --shelf-gallery-overlap-resting: 48px;
   }
 
   .footer-name {
