@@ -241,7 +241,7 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
 
   const positionIndicator = (button) => {
     if (!indicator || !button) return;
-    indicator.style.left = `${button.offsetLeft}px`;
+    indicator.style.transform = `translateX(${button.offsetLeft}px)`;
     indicator.style.width = `${button.offsetWidth}px`;
   };
 
@@ -501,7 +501,7 @@ if (shelfDevicesSection) {
     if (!devIndicator || !btn) return;
     const trackRect = devIndicator.parentElement.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
-    devIndicator.style.left = `${btnRect.left - trackRect.left}px`;
+    devIndicator.style.transform = `translateX(${btnRect.left - trackRect.left}px)`;
     devIndicator.style.width = `${btnRect.width}px`;
   };
 
@@ -684,7 +684,7 @@ if (shelfSpacesSection) {
     if (!indicator || !btn) return;
     const trackRect = indicator.parentElement.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
-    indicator.style.left = `${btnRect.left - trackRect.left}px`;
+    indicator.style.transform = `translateX(${btnRect.left - trackRect.left}px)`;
     indicator.style.width = `${btnRect.width}px`;
   };
 
