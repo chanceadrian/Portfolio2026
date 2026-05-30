@@ -2901,6 +2901,13 @@ figure {
     margin-bottom: calc(834px * (var(--gallery-frame-width) / 980px) - 834px);
   }
 
+  .dietary-duo-frame {
+    transform: scale(0.9);
+    transform-origin: top center;
+    margin-inline: calc(724px * -0.05);
+    margin-bottom: calc(712px * -0.1);
+  }
+
   .shelf-hero-image {
     height: min(820px, calc(100vh - 48px));
   }
