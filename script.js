@@ -375,8 +375,11 @@ if (shelfItemsSection) {
   const rows = Array.from(shelfItemsSection.querySelectorAll(".shelf-item-row"));
   const prevBtn = shelfItemsSection.querySelector(".gallery-button-previous");
   const nextBtn = shelfItemsSection.querySelector(".gallery-button-next");
+  const shelfGalleryFrame = shelfItemsSection.querySelector(".shelf-gallery-frame");
   const STEP = 406;
   let currentIndex = 0;
+
+  const isScrollMode = () => window.matchMedia("(max-width: 1068px)").matches;
 
   const updatePositions = (newIndex) => {
     images.forEach((img, i) => {
@@ -406,6 +409,14 @@ if (shelfItemsSection) {
     nextBtn.disabled = currentIndex === images.length - 1;
   };
 
+  const scrollToIndex = (idx) => {
+    idx = Math.max(0, Math.min(idx, images.length - 1));
+    images[idx].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    currentIndex = idx;
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === images.length - 1;
+  };
+
   // Set initial positions without transition flash
   images.forEach((img) => { img.style.transition = "none"; });
   updatePositions(0);
@@ -415,24 +426,52 @@ if (shelfItemsSection) {
     });
   });
 
+  // Sync row selection from scroll position
+  let scrollSyncTimer = null;
+  shelfGalleryFrame.addEventListener("scroll", () => {
+    if (!isScrollMode()) return;
+    clearTimeout(scrollSyncTimer);
+    scrollSyncTimer = setTimeout(() => {
+      const scrollPadding = parseFloat(getComputedStyle(shelfGalleryFrame).scrollPaddingLeft) || 0;
+      const snapLeft = shelfGalleryFrame.scrollLeft + scrollPadding;
+      let closest = 0, closestDist = Infinity;
+      images.forEach((img, i) => {
+        const dist = Math.abs(img.offsetLeft - snapLeft);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+      rows.forEach(r => r.classList.remove("is-selected"));
+      rows[closest]?.classList.add("is-selected");
+      currentIndex = closest;
+      prevBtn.disabled = closest === 0;
+      nextBtn.disabled = closest === images.length - 1;
+    }, 50);
+  }, { passive: true });
+
   prevBtn.addEventListener("click", () => {
-    if (currentIndex > 0) updatePositions(currentIndex - 1);
+    if (currentIndex <= 0) return;
+    if (isScrollMode()) scrollToIndex(currentIndex - 1);
+    else updatePositions(currentIndex - 1);
   });
   nextBtn.addEventListener("click", () => {
-    if (currentIndex < images.length - 1) updatePositions(currentIndex + 1);
+    if (currentIndex >= images.length - 1) return;
+    if (isScrollMode()) scrollToIndex(currentIndex + 1);
+    else updatePositions(currentIndex + 1);
   });
   rows.forEach((row) => {
     row.addEventListener("click", () => {
       const index = parseInt(row.dataset.index, 10);
-      if (!isNaN(index)) updatePositions(index);
+      if (isNaN(index)) return;
+      if (isScrollMode()) scrollToIndex(index);
+      else updatePositions(index);
     });
   });
 
-  // Trackpad / horizontal scroll wheel
+  // Trackpad / horizontal scroll wheel — desktop only
   let wheelAccum = 0;
   let wheelCooldown = false;
 
   shelfItemsSection.addEventListener("wheel", (e) => {
+    if (isScrollMode()) return;
     if (wheelCooldown) return;
     if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
     e.preventDefault();
@@ -446,15 +485,16 @@ if (shelfItemsSection) {
     }
   }, { passive: false });
 
-  // Touch swipe
+  // Touch swipe — desktop only (scroll mode uses native touch scroll)
   let touchStartX = null;
 
   shelfItemsSection.addEventListener("touchstart", (e) => {
+    if (isScrollMode()) return;
     touchStartX = e.touches[0].clientX;
   }, { passive: true });
 
   shelfItemsSection.addEventListener("touchend", (e) => {
-    if (touchStartX === null) return;
+    if (isScrollMode() || touchStartX === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
     touchStartX = null;
     if (Math.abs(dx) < 60) return;
@@ -468,7 +508,10 @@ if (shelfItemsSection) {
     const rect = shelfItemsSection.getBoundingClientRect();
     if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     const next = currentIndex + (e.key === "ArrowRight" ? 1 : -1);
-    if (next >= 0 && next < images.length) updatePositions(next);
+    if (next >= 0 && next < images.length) {
+      if (isScrollMode()) scrollToIndex(next);
+      else updatePositions(next);
+    }
   });
 }
 

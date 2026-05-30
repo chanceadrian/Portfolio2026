@@ -11,6 +11,9 @@
   --label-tertiary: rgba(60, 60, 67, 0.3);
 
   --accent-link: #0066cc;
+
+  --gallery-frame-width: min(1260px, 87.5vw);
+  --gallery-frame-gutter: calc((100vw - var(--gallery-frame-width)) / 2);
 }
 
 .theme-light {
@@ -213,7 +216,7 @@ figure {
 
 .section {
   width: 100%;
-  padding: 160px 24px;
+  padding: 160px var(--gallery-frame-gutter);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2690,7 +2693,7 @@ figure {
   height: auto;
   left: 50%;
   transform: translateX(-50%);
-  max-width: calc(100% - 120px);
+  max-width: calc(100% - 80px);
 }
 
 .shelf-mail-img-top {
@@ -2831,14 +2834,13 @@ figure {
   .anomaly-split {
     flex-direction: column;
     align-items: center;
-    gap: 40px;
   }
 
   .anomaly-image-group {
-    transform: scale(0.8);
+    transform: scale(calc(var(--gallery-frame-width) / 796px));
     transform-origin: top center;
-    margin-inline: calc(796px * -0.1);
-    margin-bottom: calc(798px * -0.2);
+    margin-inline: calc((var(--gallery-frame-width) - 796px) / 2);
+    margin-bottom: calc(798px * (var(--gallery-frame-width) / 796px) - 798px);
   }
 
   .anomaly-text-stack {
@@ -2855,23 +2857,56 @@ figure {
     flex-shrink: 0;
   }
 
+  .indecision-new-image-view {
+    transform: scale(calc(var(--gallery-frame-width) / 980px));
+    transform-origin: top center;
+    margin-inline: calc((var(--gallery-frame-width) - 980px) / 2);
+    margin-bottom: calc(674px * (var(--gallery-frame-width) / 980px) - 674px);
+  }
+
+  .indecision-oc-imgs {
+    transform: scale(calc(var(--gallery-frame-width) / 1080px));
+    transform-origin: top center;
+    margin-inline: calc((var(--gallery-frame-width) - 1080px) / 2);
+    margin-bottom: calc(769px * (var(--gallery-frame-width) / 1080px) - 769px);
+  }
+
+  .indecision-oc-section .segmented-control,
+  .indecision-bp-section .segmented-control {
+    max-width: calc(var(--gallery-frame-width) * 0.5);
+  }
+
+  .indecision-showcase-frame {
+    width: var(--gallery-frame-width);
+    height: calc(var(--gallery-frame-width) * 1040 / 840);
+  }
+
+  .indecision-showcase-img {
+    width: 100%;
+    height: auto;
+  }
+
   .dietary-hero-stack {
     flex-shrink: 0;
   }
 
-  .shelf-hero-image {
-    height: min(740px, calc(100vh - 48px));
+  .dietary-hero-image + .dietary-hero-image {
+    margin-left: -267px;
   }
 
-  .shelf-spaces-image-group {
-    transform: scale(0.85);
+  .dietary-design-frame {
+    transform: scale(calc(var(--gallery-frame-width) / 980px));
     transform-origin: top center;
-    margin-inline: calc(420px * -0.075);
-    margin-bottom: calc(859px * -0.15);
+    margin-inline: calc((var(--gallery-frame-width) - 980px) / 2);
+    margin-bottom: calc(834px * (var(--gallery-frame-width) / 980px) - 834px);
+  }
+
+  .shelf-hero-image {
+    height: min(820px, calc(100vh - 48px));
   }
 
   .shelf-style-images {
-    transform: scale(0.85);
+    transform: scale(0.84);
     transform-origin: top center;
     margin-bottom: calc(695px * -0.15);
   }
@@ -2879,7 +2914,6 @@ figure {
   .shelf-items-view {
     flex-direction: column;
     align-items: center;
-    gap: 48px;
     width: min(87.5vw, 1260px);
   }
 
@@ -2888,31 +2922,76 @@ figure {
     width: 100%;
   }
 
-  .shelf-item-word {
-    font-size: 56px;
-    line-height: 60px;
-  }
-
   .shelf-items-tagline {
-    font-size: 28px;
-    line-height: 32px;
+    max-width: 580px;
   }
 
   .shelf-items-gallery {
     flex: 0 0 auto;
     align-self: flex-start;
-    align-items: flex-start;
+    align-items: flex-end;
+    width: 100vw;
+    margin-left: calc(-1 * var(--gallery-frame-gutter));
   }
 
   .shelf-gallery-frame {
-    transform: scale(0.85);
-    transform-origin: top left;
-    margin-bottom: calc(760px * -0.15);
-    margin-right: calc(372px * -0.15);
+    width: 100vw;
+    height: 760px;
+    display: flex;
+    gap: 24px;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--gallery-frame-gutter);
+    padding-left: var(--gallery-frame-gutter);
+    padding-right: calc(100vw - var(--gallery-frame-gutter) - 372px);
+    border-radius: 0;
+    scrollbar-width: none;
+  }
+
+  .shelf-gallery-frame::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shelf-gallery-img {
+    position: relative;
+    inset: auto;
+    flex: 0 0 372px;
+    width: 372px;
+    height: 760px;
+    opacity: 1;
+    transform: none;
+    transition: none;
+    scroll-snap-align: start;
+    will-change: auto;
+    border-radius: 40px;
+    object-fit: cover;
+  }
+
+  .shelf-gallery-controls {
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: var(--gallery-frame-gutter);
   }
 
   .shelf-devices-scroll-wrapper {
     width: 93.75vw;
+  }
+
+  .shelf-devices-scroll {
+    height: calc(93.75vw * 760 / 1067 + 50px);
+    overflow: visible;
+  }
+
+  .shelf-ipad-stack {
+    width: 93.75vw;
+    height: calc(93.75vw * 760 / 1067);
+    flex-shrink: 1;
+  }
+
+  .shelf-devices-item[data-device="mac"] .shelf-devices-img {
+    width: 96.75vw;
+    min-width: unset;
+    height: auto;
   }
 
   .overview-gallery {
@@ -2930,6 +3009,29 @@ figure {
     height: 628px;
   }
 
+  .shelf-reflection-img-1 {
+    padding-top: 0;
+    width: auto;
+    max-width: calc(100% + 200px);
+    max-height: calc(100% + 200px);
+  }
+
+  .shelf-reflection-card-2 {
+    justify-content: flex-start;
+    padding-left: 60px;
+  }
+
+  .shelf-reflection-img-holder {
+    transform: scale(0.95);
+    transform-origin: left;
+    max-width: calc(100% + 200px);
+  }
+
+  .shelf-reflection-img-4 {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .anomaly-card-img {
     top: 50%;
     transform: translate(-50%, -50%);
@@ -2942,16 +3044,24 @@ figure {
     transform: translate(-50%, -50%);
   }
 
+  .split-view {
+    gap: 48px;
+    align-items: flex-start;
+  }
+
   .split-image {
-    height: 520px;
+    flex: 1;
+    min-width: 0;
+    height: auto;
   }
 
   .split-stack {
-    width: 360px;
+    flex: 1;
+    width: auto;
   }
 
   .dietary-trio-row {
-    gap: 40px;
+    overflow: visible;
   }
 
   .dietary-trio-copy {
@@ -2962,6 +3072,24 @@ figure {
   .dietary-trio-frame {
     flex-shrink: 1;
     min-width: 280px;
+    zoom: 0.85;
+    overflow: visible;
+  }
+
+  .dietary-trio-img {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .footer-name {
+    font-size: 48px;
+    line-height: 52px;
+  }
+
+  .footer-project-link {
+    font-size: 24px;
+    line-height: 28px;
   }
 }
 
@@ -3026,13 +3154,13 @@ figure {
 
   .split-view {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 48px;
   }
 
   .split-image {
-    height: 360px;
-    width: auto;
+    width: 100%;
+    height: auto;
   }
 
   .split-stack {
@@ -3044,7 +3172,6 @@ figure {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 40px;
   }
 
   .dietary-trio-copy {
@@ -3124,12 +3251,14 @@ figure {
   width: min(100%, 980px);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.split-image {
-  height: 859px;
-  width: auto;
+@media (min-width: 1069px) {
+  .split-image {
+    height: 859px;
+    width: auto;
+  }
 }
 
 .split-stack {
