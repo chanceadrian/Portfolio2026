@@ -523,7 +523,7 @@ if (shelfDevicesSection) {
   const deviceItems = Array.from(shelfDevicesSection.querySelectorAll(".shelf-devices-item"));
   const devSegBtns = Array.from(shelfDevicesSection.querySelectorAll(".shelf-devices-segmented .segmented-button"));
   const devIndicator = shelfDevicesSection.querySelector(".shelf-devices-segmented .segmented-indicator");
-  const [ipadFront, ipadBack] = Array.from(shelfDevicesSection.querySelectorAll(".shelf-ipad-layer"));
+  const ipadEl = shelfDevicesSection.querySelector(".shelf-ipad-layer");
   const replayBtn = shelfDevicesSection.querySelector(".shelf-ipad-replay");
 
   const IPAD_SRCS = [
@@ -537,7 +537,6 @@ if (shelfDevicesSection) {
   let currentDevice = 0;
   let ipadAnimating = false;
   let ipadHasAnimated = false;
-  let ipadFrontActive = true;
   let ipadFirstRun = true;
 
   const positionDevIndicator = (btn) => {
@@ -548,23 +547,12 @@ if (shelfDevicesSection) {
     devIndicator.style.width = `${btnRect.width}px`;
   };
 
-  const crossfadeIpad = (src) => {
-    const incoming = ipadFrontActive ? ipadBack : ipadFront;
-    const outgoing = ipadFrontActive ? ipadFront : ipadBack;
-    const doFade = () => {
-      incoming.style.backgroundImage = `url('${src}')`;
-      incoming.style.zIndex = "1";
-      outgoing.style.zIndex = "0";
-      requestAnimationFrame(() => {
-        incoming.style.opacity = "1";
-        outgoing.style.opacity = "0";
-        ipadFrontActive = !ipadFrontActive;
-      });
-    };
+  const transitionSrc = (src) => {
     const preloader = new Image();
     preloader.src = src;
-    if (preloader.complete && preloader.naturalWidth > 0) doFade();
-    else preloader.onload = doFade;
+    const doSwap = () => { ipadEl.style.backgroundImage = `url('${src}')`; };
+    if (preloader.complete && preloader.naturalWidth > 0) doSwap();
+    else preloader.onload = doSwap;
   };
 
   const runIPadAnim = () => {
@@ -578,13 +566,12 @@ if (shelfDevicesSection) {
     const isFirst = ipadFirstRun;
     ipadFirstRun = false;
 
-    // On replay, crossfade back to ipad-1 first; on first run ipad-1 is already showing
-    if (!isFirst) crossfadeIpad(IPAD_SRCS[0]);
+    if (!isFirst) transitionSrc(IPAD_SRCS[0]);
 
     setTimeout(() => {
-      crossfadeIpad(IPAD_SRCS[1]);
+      transitionSrc(IPAD_SRCS[1]);
       setTimeout(() => {
-        crossfadeIpad(IPAD_SRCS[2]);
+        transitionSrc(IPAD_SRCS[2]);
         setTimeout(() => {
           ipadAnimating = false;
           replayBtn.style.color = "var(--label-primary)";
@@ -652,14 +639,7 @@ if (shelfDevicesSection) {
     if (next >= 0 && next < deviceItems.length) goToDevice(next);
   });
 
-  // Init iPad layers — suppress transition so back layer doesn't fade 1→0 on load
-  ipadFront.style.backgroundImage = `url('${IPAD_SRCS[0]}')`;
-  ipadFront.style.zIndex = "1";
-  ipadFront.style.opacity = "1";
-  ipadBack.style.zIndex = "0";
-  ipadBack.style.transition = "none";
-  ipadBack.style.opacity = "0";
-  requestAnimationFrame(() => { ipadBack.style.transition = ""; });
+  ipadEl.style.backgroundImage = `url('${IPAD_SRCS[0]}')`;
 
   // Init first item visible
   deviceItems[0].style.opacity = "1";
