@@ -2748,6 +2748,7 @@ figure {
 
 .footer-section {
   background: transparent;
+  gap: 120px;
 }
 
 .footer-view {
@@ -2755,7 +2756,7 @@ figure {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 70px;
+  gap: 52px;
 }
 
 .footer-name {
@@ -2817,6 +2818,22 @@ figure {
 }
 
 
+
+.footer-footnote {
+  width: min(87.5vw, 980px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-footnote-text {
+  color: var(--label-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: -0.01em;
+}
 
 /* ── Responsive ──────────────────────────────────────────── */
 
@@ -3045,7 +3062,11 @@ figure {
   .anomaly-card,
   .shelf-reflection-card,
   .shelf-mail-card {
-    height: 628px;
+    height: 480px;
+  }
+
+  .gallery-controls {
+    margin-top: 40px;
   }
 
   .shelf-reflection-img-1 {
@@ -3128,6 +3149,34 @@ figure {
     --shelf-gallery-overlap-resting: 48px;
   }
 
+  .gallery-card-nasa-image-1 {
+    display: none;
+  }
+
+  .gallery-card-nasa-stack {
+    width: 610px;
+    height: 508px;
+    aspect-ratio: auto;
+    left: 50%;
+    right: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .gallery-card-nasa-image-2 {
+    left: 92px;
+    top: 0;
+    width: 713.36px;
+    height: 508px;
+  }
+
+  .gallery-card-nasa-image-3 {
+    left: 0;
+    top: 114.88px;
+    width: 193.7px;
+    height: 396px;
+  }
+
   .footer-name {
     font-size: 48px;
     line-height: 52px;
@@ -3140,9 +3189,20 @@ figure {
 }
 
 @media (max-width: 734px) {
-  .section {
-    padding-right: 20px;
-    padding-left: 20px;
+  .nav {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 12px;
+    width: 100vw;
+    padding-left: var(--gallery-frame-gutter);
+    padding-right: var(--gallery-frame-gutter);
+    scroll-padding-left: var(--gallery-frame-gutter);
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-link {
@@ -3155,8 +3215,65 @@ figure {
     aspect-ratio: 980 / 680;
   }
 
+  .first-section {
+    gap: 40px;
+  }
+
+  .overview-gallery {
+    margin-top: 28px;
+  }
+
+  .overview-gallery .gallery-card {
+    width: 100%;
+    height: 480px;
+    aspect-ratio: auto;
+    padding: 30px;
+  }
+
+  .gallery-card-nasa-stack {
+    width: 284px;
+    height: 420px;
+    left: 30px;
+    right: auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .gallery-card-nasa-image-2 {
+    left: 76.06px;
+    top: 0;
+    width: 589.79px;
+    height: 420px;
+  }
+
+  .gallery-card-nasa-image-3 {
+    left: 0;
+    top: 94.98px;
+    width: 160.14px;
+    height: 327.4px;
+  }
+
+  .gallery-meta {
+    padding: 20px 15px 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .overview-gallery .gallery-link {
+    align-self: flex-end;
+  }
+
   .view {
     max-width: 420px;
+  }
+
+  .first-section .text-view {
+    width: 100vw;
+    max-width: none;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: var(--gallery-frame-gutter);
+    padding-right: var(--gallery-frame-gutter);
   }
 
   .headline {
@@ -3251,7 +3368,7 @@ figure {
   }
 
   .poster-item-medium {
-    --poster-item-width: var(--gallery-frame-width);
+    --poster-item-width: 260px;
     width: var(--poster-item-width);
   }
 
@@ -3267,12 +3384,149 @@ figure {
   }
 
   .poster-card {
-    height: auto;
-    aspect-ratio: 372 / 450;
+    height: 314px;
+    aspect-ratio: auto;
   }
 
-  .poster-item-medium .poster-card {
-    aspect-ratio: 696 / 450;
+  .refinements-card-side-3 {
+    background-image: url("assets/images/Overview/side-3-small.avif");
+  }
+
+  .refinements-card-side-4 {
+    background-image: url("assets/images/Overview/side-4-small.avif");
+  }
+
+  .section {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  .first-section {
+    padding-top: 0;
+  }
+
+  .footer-section {
+    gap: 80px;
+  }
+
+  .footer-view {
+    gap: 34px;
+  }
+
+  .footer-name {
+    font-size: 28px;
+    line-height: 32px;
+    letter-spacing: 0.007em;
+  }
+
+  .footer-project-link {
+    font-size: 21px;
+    line-height: 25px;
+    letter-spacing: 0;
+  }
+
+  .footer-overview-link {
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: -0.022em;
+  }
+
+  /* ── Overview gallery poster stacks ── */
+
+  .gallery-card-shelf-stack {
+    inset: auto;
+    width: 284px;
+    height: 400px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .gallery-card-shelf-image {
+    position: absolute;
+    top: 0;
+    width: 195px;
+    height: 400px;
+  }
+
+  .gallery-card-shelf-image + .gallery-card-shelf-image {
+    margin-left: 0;
+  }
+
+  .gallery-card-shelf-image:nth-child(1) {
+    left: calc(0px - var(--shelf-gallery-drift));
+    transform: none;
+  }
+
+  .gallery-card-shelf-image:nth-child(2) {
+    left: calc(89px + var(--shelf-gallery-drift));
+  }
+
+  .gallery-card-shelf-image:nth-child(3) {
+    display: none;
+    transform: none;
+  }
+
+  .gallery-card-indecision {
+    --indecision-image-1-left: 0px;
+    --indecision-image-2-left: 103px;
+  }
+
+  .gallery-card-indecision-stack {
+    width: 284px;
+    height: 400px;
+    aspect-ratio: auto;
+  }
+
+  .gallery-card-indecision-image-1 {
+    top: 0;
+    width: 195.65px;
+    height: 400px;
+  }
+
+  .gallery-card-indecision-image-2 {
+    top: 15px;
+    width: 180.77px;
+    height: 369.57px;
+  }
+
+  .gallery-card-indecision-image-3 {
+    display: none;
+  }
+
+  .gallery-card-dietary-stack {
+    inset: auto;
+    width: 284px;
+    height: 387px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .gallery-card-dietary-image {
+    position: absolute;
+    width: 376px;
+    height: 376px;
+  }
+
+  .gallery-card-dietary-image + .gallery-card-dietary-image {
+    margin-left: 0;
+  }
+
+  .gallery-card-dietary-image:nth-child(1) {
+    left: calc(-102px - (340px - var(--dietary-gallery-overlap-current)) * 0.3);
+    top: 8.5px;
+    z-index: 1;
+  }
+
+  .gallery-card-dietary-image:nth-child(2) {
+    left: calc(10px + (340px - var(--dietary-gallery-overlap-current)) * 0.3);
+    top: 8.5px;
+    z-index: 2;
+  }
+
+  .gallery-card-dietary-image:nth-child(3) {
+    display: none;
   }
 }
 
