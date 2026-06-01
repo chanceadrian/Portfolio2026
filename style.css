@@ -3559,6 +3559,10 @@ figure {
     height: 859px;
     width: auto;
   }
+
+  .nasa-eio-section .split-view {
+    align-items: center;
+  }
 }
 
 .split-stack {
