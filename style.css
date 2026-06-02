@@ -3285,7 +3285,7 @@ figure {
   .eyebrow {
     font-size: 21px;
     line-height: 25px;
-    letter-spacing: 0.011em;
+    letter-spacing: 0.011em; 
   }
 
   .text-view {
@@ -3293,9 +3293,9 @@ figure {
   }
 
   .body-copy {
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: 0;
+    font-size: 21px;
+    line-height: 25px;
+    letter-spacing: 0.011em; 
   }
 
   .poster-caption,
