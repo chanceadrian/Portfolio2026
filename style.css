@@ -2789,7 +2789,7 @@ figure {
   font-size: 17px;
   font-weight: 600;
   line-height: 22px;
-  letter-spacing: -0.022em;
+  letter-spacing: 0;
 }
 
 .footer-projects-group {
@@ -2803,7 +2803,7 @@ figure {
   font-size: 15px;
   font-weight: 600;
   line-height: 20px;
-  letter-spacing: -0.022em;
+  letter-spacing: 0;
 }
 
 .footer-project-links {
@@ -3440,7 +3440,7 @@ figure {
   .footer-overview-link {
     font-size: 15px;
     line-height: 20px;
-    letter-spacing: -0.022em;
+    letter-spacing: 0;
   }
 
   /* ── Overview gallery poster stacks ── */
