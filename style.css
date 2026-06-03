@@ -607,7 +607,7 @@ figure {
 /* ── Shelf — Devices ─────────────────────────────────────── */
 
 .shelf-devices-outer {
-  background: var(--background-primary);
+  background: var(--background-secondary);
 }
 
 .shelf-devices-section {
