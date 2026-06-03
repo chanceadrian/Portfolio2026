@@ -2291,6 +2291,10 @@ figure {
   background-image: url("assets/images/Overview/side-4.avif");
 }
 
+.refinements-card-side-5 {
+  background-image: url("assets/images/Overview/side-5.avif");
+}
+
 
 /* ── NASA — Anomaly Response ────────────────────────────── */
 
@@ -3398,6 +3402,10 @@ figure {
 
   .refinements-card-side-4 {
     background-image: url("assets/images/Overview/side-4-small.avif");
+  }
+
+  .refinements-card-side-5 {
+    background-image: url("assets/images/Overview/side-5-small.avif");
   }
 
   .section {
