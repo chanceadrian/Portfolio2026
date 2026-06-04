@@ -1,3 +1,5 @@
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 let activeGalleryController = null;
 
 document.querySelectorAll(".gallery").forEach((gallery) => {
@@ -12,7 +14,6 @@ document.querySelectorAll(".gallery").forEach((gallery) => {
   const indecisionImage1 = indecisionCard?.querySelector(".gallery-card-indecision-image-1");
   const indecisionImage2 = indecisionCard?.querySelector(".gallery-card-indecision-image-2");
   const indecisionImage3 = indecisionCard?.querySelector(".gallery-card-indecision-image-3");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let animationFrame = null;
 
   if (!scroller || items.length === 0 || !previousButton || !nextButton) {
@@ -149,23 +150,27 @@ document.querySelectorAll(".gallery").forEach((gallery) => {
     requestGalleryMotionUpdate();
   }, { passive: true });
 
+  let galleryResizeTimer = null;
   window.addEventListener("resize", () => {
-    cachedLeadingInset = parseFloat(getComputedStyle(scroller).scrollPaddingLeft) || 0;
-    if (shelfCard) {
-      const s = getComputedStyle(shelfCard);
-      cachedOverlaps.shelfFinal   = parseFloat(s.getPropertyValue("--shelf-gallery-overlap")) || 64;
-      cachedOverlaps.shelfResting = parseFloat(s.getPropertyValue("--shelf-gallery-overlap-resting")) || 24;
-    }
-    if (indecisionStack) {
-      cachedOverlaps.stackWidth = indecisionStack.offsetWidth;
-    }
-    if (dietaryCard) {
-      const s = getComputedStyle(dietaryCard);
-      cachedOverlaps.dietaryFinal   = parseFloat(s.getPropertyValue("--dietary-gallery-overlap")) || 340;
-      cachedOverlaps.dietaryResting = parseFloat(s.getPropertyValue("--dietary-gallery-overlap-resting")) || 260;
-    }
-    updateButtons();
-    requestGalleryMotionUpdate();
+    clearTimeout(galleryResizeTimer);
+    galleryResizeTimer = setTimeout(() => {
+      cachedLeadingInset = parseFloat(getComputedStyle(scroller).scrollPaddingLeft) || 0;
+      if (shelfCard) {
+        const s = getComputedStyle(shelfCard);
+        cachedOverlaps.shelfFinal   = parseFloat(s.getPropertyValue("--shelf-gallery-overlap")) || 64;
+        cachedOverlaps.shelfResting = parseFloat(s.getPropertyValue("--shelf-gallery-overlap-resting")) || 24;
+      }
+      if (indecisionStack) {
+        cachedOverlaps.stackWidth = indecisionStack.offsetWidth;
+      }
+      if (dietaryCard) {
+        const s = getComputedStyle(dietaryCard);
+        cachedOverlaps.dietaryFinal   = parseFloat(s.getPropertyValue("--dietary-gallery-overlap")) || 340;
+        cachedOverlaps.dietaryResting = parseFloat(s.getPropertyValue("--dietary-gallery-overlap-resting")) || 260;
+      }
+      updateButtons();
+      requestGalleryMotionUpdate();
+    }, 100);
   });
 
   updateButtons();
@@ -299,9 +304,13 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
     }
   });
 
+  let viewerResizeTimer = null;
   window.addEventListener("resize", () => {
-    const selected = buttons.find((b) => b.classList.contains("is-selected"));
-    if (selected) positionIndicator(selected);
+    clearTimeout(viewerResizeTimer);
+    viewerResizeTimer = setTimeout(() => {
+      const selected = buttons.find((b) => b.classList.contains("is-selected"));
+      if (selected) positionIndicator(selected);
+    }, 100);
   });
 });
 
@@ -319,13 +328,76 @@ if (overviewGallery) {
   }, { once: true });
 }
 
+// Clear will-change on one-shot hero animations once they finish
+const nasaHeroImages = document.querySelectorAll('.nasa-hero-image');
+if (nasaHeroImages.length) {
+  const clearNasaHero = () => nasaHeroImages.forEach(el => el.style.setProperty('will-change', 'auto'));
+  if (reduceMotion.matches) clearNasaHero();
+  else document.querySelector('.nasa-hero-image-1')?.addEventListener('animationend', clearNasaHero, { once: true });
+}
+
+const shelfHeroImage = document.querySelector('.shelf-hero-image');
+if (shelfHeroImage) {
+  const shelfTextView = document.querySelector('.shelf .text-view');
+  const clearShelfHero = () => {
+    shelfHeroImage.style.setProperty('will-change', 'auto');
+    shelfTextView?.style.setProperty('will-change', 'auto');
+  };
+  if (reduceMotion.matches) clearShelfHero();
+  else shelfHeroImage.addEventListener('animationend', clearShelfHero, { once: true });
+}
+
+const indecisionHeroImages = document.querySelectorAll('.indecision-hero-image');
+if (indecisionHeroImages.length) {
+  const clearIndecisionHero = () => indecisionHeroImages.forEach(el => el.style.setProperty('will-change', 'auto'));
+  if (reduceMotion.matches) clearIndecisionHero();
+  else document.querySelector('.indecision-hero-image-3')?.addEventListener('animationend', clearIndecisionHero, { once: true });
+}
+
+const dietaryHeroImages = document.querySelectorAll('.dietary-hero-image');
+if (dietaryHeroImages.length) {
+  const clearDietaryHero = () => dietaryHeroImages.forEach(el => el.style.setProperty('will-change', 'auto'));
+  if (reduceMotion.matches) clearDietaryHero();
+  else document.querySelector('.dietary-hero-image-7')?.addEventListener('animationend', clearDietaryHero, { once: true });
+}
+
+// Gate indecision hero animation until all three images are decoded
+const indecisionHeroImgs = document.querySelectorAll('.indecision-hero-image');
+if (indecisionHeroImgs.length && !reduceMotion.matches) {
+  let heroStarted = false;
+  const startIndecisionHero = () => {
+    if (heroStarted) return;
+    heroStarted = true;
+    document.body.classList.add('hero-ready');
+  };
+  const heroFallback = setTimeout(startIndecisionHero, 1000);
+  Promise.all(Array.from(indecisionHeroImgs).map(img => img.decode().catch(() => {}))).then(() => {
+    clearTimeout(heroFallback);
+    startIndecisionHero();
+  });
+}
+
+// Gate dietary hero animation until all seven images are decoded
+const dietaryHeroImgs = document.querySelectorAll('.dietary-hero-image');
+if (dietaryHeroImgs.length && !reduceMotion.matches) {
+  let dietaryStarted = false;
+  const startDietaryHero = () => {
+    if (dietaryStarted) return;
+    dietaryStarted = true;
+    document.body.classList.add('hero-ready');
+  };
+  const dietaryFallback = setTimeout(startDietaryHero, 1000);
+  Promise.all(Array.from(dietaryHeroImgs).map(img => img.decode().catch(() => {}))).then(() => {
+    clearTimeout(dietaryFallback);
+    startDietaryHero();
+  });
+}
+
 // NASA Anomaly scroll reveal
 const anomalyGroup = document.querySelector('.anomaly-image-group');
 const anomalySection = document.querySelector('.nasa-anomaly-section');
 
 if (anomalyGroup && anomalySection) {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
   if (reduceMotion.matches) {
     anomalyGroup.classList.add('is-visible');
   } else {
@@ -353,8 +425,6 @@ const nasaGallerySection = document.querySelector(".nasa-gallery-section");
 const nasaGalleryImage = nasaGallerySection?.querySelector(".nasa-gallery-image");
 
 if (nasaGallerySection && nasaGalleryImage) {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
   const updateParallax = () => {
     if (reduceMotion.matches) return;
     const rect = nasaGallerySection.getBoundingClientRect();
@@ -387,7 +457,8 @@ if (shelfItemsSection) {
   const STEP = 406;
   let currentIndex = 0;
 
-  const isScrollMode = () => window.matchMedia("(max-width: 1068px)").matches;
+  const scrollModeQuery = window.matchMedia("(max-width: 1068px)");
+  const isScrollMode = () => scrollModeQuery.matches;
 
   const updatePositions = (newIndex) => {
     images.forEach((img, i) => {
@@ -510,11 +581,15 @@ if (shelfItemsSection) {
     if (next >= 0 && next < images.length) updatePositions(next);
   }, { passive: true });
 
+  let shelfItemsIsActive = false;
+  new IntersectionObserver((entries) => {
+    shelfItemsIsActive = entries[0].isIntersecting;
+  }, { threshold: 0.5 }).observe(shelfItemsSection);
+
   // Keyboard navigation
   document.addEventListener("keydown", (e) => {
+    if (!shelfItemsIsActive || activeGalleryController || activeImageViewer) return;
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-    const rect = shelfItemsSection.getBoundingClientRect();
-    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     const next = currentIndex + (e.key === "ArrowRight" ? 1 : -1);
     if (next >= 0 && next < images.length) {
       if (isScrollMode()) scrollToIndex(next);
@@ -638,10 +713,14 @@ if (shelfDevicesSection) {
     goToDevice(i);
   }));
 
+  let shelfDevicesIsActive = false;
+  new IntersectionObserver((entries) => {
+    shelfDevicesIsActive = entries[0].isIntersecting;
+  }, { threshold: 0.5 }).observe(shelfDevicesSection);
+
   document.addEventListener("keydown", (e) => {
+    if (!shelfDevicesIsActive || activeGalleryController || activeImageViewer) return;
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-    const rect = shelfDevicesSection.getBoundingClientRect();
-    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     e.preventDefault();
     const next = currentDevice + (e.key === "ArrowRight" ? 1 : -1);
     if (next >= 0 && next < deviceItems.length) goToDevice(next);
@@ -666,7 +745,7 @@ const shelfStyleImages = document.querySelector(".shelf-style-images");
 const shelfStyleSection = document.querySelector(".shelf-style-section");
 
 if (shelfStyleImages && shelfStyleSection) {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (reduceMotion.matches) {
     shelfStyleImages.classList.add("is-visible");
   } else {
     new IntersectionObserver((entries) => {
@@ -844,10 +923,14 @@ if (shelfSpacesSection) {
   segButtons[0].addEventListener("click", () => { if (isRoom) exitRoom(); });
   segButtons[1].addEventListener("click", () => { if (!isRoom) enterRoom(); });
 
+  let shelfSpacesIsActive = false;
+  new IntersectionObserver((entries) => {
+    shelfSpacesIsActive = entries[0].isIntersecting;
+  }, { threshold: 0.5 }).observe(shelfSpacesSection);
+
   document.addEventListener("keydown", (e) => {
+    if (!shelfSpacesIsActive || activeGalleryController || activeImageViewer) return;
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-    const rect = shelfSpacesSection.getBoundingClientRect();
-    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     e.preventDefault();
     if (e.key === "ArrowLeft") {
       if (isRoom) exitRoom();

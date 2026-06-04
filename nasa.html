@@ -7,10 +7,9 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/Overview/icon.svg">
 
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-1.avif">
-  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-2.avif">
-  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-3.avif">
-  <link rel="preload" as="image" href="assets/images/NASA/gallery.avif">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-1.avif" fetchpriority="high">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-2.avif" fetchpriority="high">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-3.avif" fetchpriority="high">
 </head>
 <body class="theme-dark">
   <div class="mobile-pause">
@@ -62,7 +61,7 @@
         <h2 class="headline nasa-gradient">Crew must think, decide, and act—on their own.</h2>
       </div>
       <div class="split-view">
-        <img class="split-image" src="assets/images/NASA/nasa-3.avif" alt="">
+        <img class="split-image" src="assets/images/NASA/nasa-3.avif" alt="" loading="lazy">
         <div class="split-stack">
           <div class="body-group">
             <p class="body-copy">As human spaceflight moves beyond low-Earth orbit, communication delays and blackouts make real-time ground support impossible, requiring crews to manage complex, unanticipated situations independently.</p>
@@ -114,15 +113,15 @@
     </section>
 
     <section class="section nasa-gallery-section">
-      <img class="nasa-gallery-image" src="assets/images/NASA/gallery.avif" alt="">
+      <img class="nasa-gallery-image" src="assets/images/NASA/gallery.avif" alt="" loading="lazy">
     </section>
 
     <section class="section nasa-anomaly-section">
       <div class="anomaly-split">
         <div class="anomaly-image-group" aria-hidden="true">
-          <img class="anomaly-img anomaly-img-1" src="assets/images/NASA/ar-1.avif" alt="">
-          <img class="anomaly-img anomaly-img-2" src="assets/images/NASA/ar-2.avif" alt="">
-          <img class="anomaly-img anomaly-img-3" src="assets/images/NASA/ar-3.avif" alt="">
+          <img class="anomaly-img anomaly-img-1" src="assets/images/NASA/ar-1.avif" alt="" loading="lazy">
+          <img class="anomaly-img anomaly-img-2" src="assets/images/NASA/ar-2.avif" alt="" loading="lazy">
+          <img class="anomaly-img anomaly-img-3" src="assets/images/NASA/ar-3.avif" alt="" loading="lazy">
         </div>
         <div class="anomaly-text-stack">
           <p class="eyebrow">Anomaly Response</p>
@@ -138,37 +137,37 @@
           <ul class="item-container anomaly-item-container" role="list">
             <li class="gallery-item anomaly-item anomaly-item-medium" role="listitem">
               <div class="anomaly-card">
-                <img class="anomaly-card-img" src="assets/images/NASA/ar-1.avif" alt="">
+                <img class="anomaly-card-img" src="assets/images/NASA/ar-1.avif" alt="" loading="lazy">
               </div>
               <p class="anomaly-caption"><span>Establish context quickly.</span> Understand the current state of the anomaly, including impacts, system status, and what requires attention now.</p>
             </li>
             <li class="gallery-item anomaly-item anomaly-item-medium" role="listitem">
               <div class="anomaly-card">
-                <img class="anomaly-card-img" src="assets/images/NASA/ar-4.avif" alt="">
+                <img class="anomaly-card-img" src="assets/images/NASA/ar-4.avif" alt="" loading="lazy">
               </div>
               <p class="anomaly-caption"><span>Urgency at a glance.</span> Understand how long the vehicle can safely operate before conditions worsen or capabilities are affected.</p>
             </li>
             <li class="gallery-item anomaly-item anomaly-item-large" role="listitem">
               <div class="anomaly-card">
-                <img class="anomaly-card-img" src="assets/images/NASA/ar-5.avif" alt="">
+                <img class="anomaly-card-img" src="assets/images/NASA/ar-5.avif" alt="" loading="lazy">
               </div>
               <p class="anomaly-caption"><span>Follow the evidence.</span> Review the observable signals forming the anomaly's signature, including telemetry shifts, advisories, and changing system behavior.</p>
             </li>
             <li class="gallery-item anomaly-item anomaly-item-small" role="listitem">
               <div class="anomaly-card">
-                <img class="anomaly-card-img" src="assets/images/NASA/ar-6.avif" alt="">
+                <img class="anomaly-card-img" src="assets/images/NASA/ar-6.avif" alt="" loading="lazy">
               </div>
               <p class="anomaly-caption"><span>See what may be connected.</span> Identify system conditions, operational context, and historical patterns that may help explain the anomaly or influence its progression.</p>
             </li>
             <li class="gallery-item anomaly-item anomaly-item-medium" role="listitem">
               <div class="anomaly-card">
-                <img class="anomaly-card-img" src="assets/images/NASA/ar-7.avif" alt="">
+                <img class="anomaly-card-img" src="assets/images/NASA/ar-7.avif" alt="" loading="lazy">
               </div>
               <p class="anomaly-caption"><span>Explore plausible explanations.</span> Explore plausible causes derived from available evidence. New information may strengthen, weaken, or rule out explanations over time.</p>
             </li>
             <li class="gallery-item anomaly-item anomaly-item-medium" role="listitem">
               <div class="anomaly-card">
-                <img class="anomaly-card-img" src="assets/images/NASA/ar-8.avif" alt="">
+                <img class="anomaly-card-img" src="assets/images/NASA/ar-8.avif" alt="" loading="lazy">
               </div>
               <p class="anomaly-caption"><span>Evidence. Causes. Action.</span> Relevant procedures and response pathways help crews verify, mitigate, or resolve known causes.</p>
             </li>
@@ -203,19 +202,19 @@
             </li>
             <li class="gallery-item poster-item poster-item-small" role="listitem">
               <div class="poster-card">
-                <img class="poster-card-img" src="assets/images/NASA/btd-2.svg" width="250" height="310" alt="" aria-hidden="true">
+                <img class="poster-card-img" src="assets/images/NASA/btd-2.svg" width="250" height="310" alt="" aria-hidden="true" loading="lazy">
               </div>
               <p class="poster-caption"><span>Understanding how experts think.</span> The team studied how flight controllers monitor systems, investigate anomalies, and coordinate under pressure — then translated those patterns into prototypes designed for crew.</p>
             </li>
             <li class="gallery-item poster-item poster-item-small" role="listitem">
               <div class="poster-card">
-                <img class="poster-card-img" src="assets/images/NASA/btd-3.avif" width="234" height="234" alt="" aria-hidden="true">
+                <img class="poster-card-img" src="assets/images/NASA/btd-3.avif" width="234" height="234" alt="" aria-hidden="true" loading="lazy">
               </div>
               <p class="poster-caption"><span>Familiar patterns. New operational contexts.</span> Navigation structures, system organization, and interaction behaviors were informed by products designed to make complex information feel approachable and understandable to a broad audience.</p>
             </li>
             <li class="gallery-item poster-item poster-item-small" role="listitem">
               <div class="poster-card">
-                <img class="poster-card-img" src="assets/images/NASA/btd-4.svg" width="190" height="192" alt="" aria-hidden="true">
+                <img class="poster-card-img" src="assets/images/NASA/btd-4.svg" width="190" height="192" alt="" aria-hidden="true" loading="lazy">
               </div>
               <p class="poster-caption"><span>Scenario-driven design.</span> Complex mission situations were recreated, iterated on, and evaluated through rapid prototypes, collaborative reviews, and operational walkthroughs.</p>
             </li>

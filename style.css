@@ -1087,15 +1087,15 @@ figure {
   z-index: 1;
 }
 
-.indecision .indecision-hero-image-1 {
+.hero-ready .indecision-hero-image-1 {
   animation: indecisionHeroFan1Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.indecision .indecision-hero-image-2 {
+.hero-ready .indecision-hero-image-2 {
   animation: indecisionHeroFan2Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
 }
 
-.indecision .indecision-hero-image-3 {
+.hero-ready .indecision-hero-image-3 {
   animation: indecisionHeroFan3Quick 1450ms cubic-bezier(0.16, 1, 0.3, 1) 170ms both;
 }
 
@@ -1356,7 +1356,7 @@ figure {
   z-index: 7;
 }
 
-.dietary .dietary-hero-image {
+.hero-ready .dietary-hero-image {
   animation: dietaryHeroCascade 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -3401,9 +3401,7 @@ figure {
     height: 380px;
     flex-shrink: 0;
   }
-}
 
-@media (max-width: 734px) {
   .gallery {
     --gallery-frame-width: min(420px, 87.5vw);
     --gallery-item-width: var(--gallery-frame-width);
