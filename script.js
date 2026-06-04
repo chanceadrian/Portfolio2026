@@ -361,37 +361,6 @@ if (dietaryHeroImages.length) {
   else document.querySelector('.dietary-hero-image-7')?.addEventListener('animationend', clearDietaryHero, { once: true });
 }
 
-// Gate indecision hero animation until all three images are decoded
-const indecisionHeroImgs = document.querySelectorAll('.indecision-hero-image');
-if (indecisionHeroImgs.length && !reduceMotion.matches) {
-  let heroStarted = false;
-  const startIndecisionHero = () => {
-    if (heroStarted) return;
-    heroStarted = true;
-    document.body.classList.add('hero-ready');
-  };
-  const heroFallback = setTimeout(startIndecisionHero, 1000);
-  Promise.all(Array.from(indecisionHeroImgs).map(img => img.decode().catch(() => {}))).then(() => {
-    clearTimeout(heroFallback);
-    startIndecisionHero();
-  });
-}
-
-// Gate dietary hero animation until all seven images are decoded
-const dietaryHeroImgs = document.querySelectorAll('.dietary-hero-image');
-if (dietaryHeroImgs.length && !reduceMotion.matches) {
-  let dietaryStarted = false;
-  const startDietaryHero = () => {
-    if (dietaryStarted) return;
-    dietaryStarted = true;
-    document.body.classList.add('hero-ready');
-  };
-  const dietaryFallback = setTimeout(startDietaryHero, 1000);
-  Promise.all(Array.from(dietaryHeroImgs).map(img => img.decode().catch(() => {}))).then(() => {
-    clearTimeout(dietaryFallback);
-    startDietaryHero();
-  });
-}
 
 // NASA Anomaly scroll reveal
 const anomalyGroup = document.querySelector('.anomaly-image-group');
