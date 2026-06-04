@@ -3313,6 +3313,10 @@ figure {
     align-items: flex-start;
   }
 
+  .gallery-caption span {
+    display: block;
+  }
+
   .overview-gallery .gallery-link {
     align-self: flex-end;
   }
