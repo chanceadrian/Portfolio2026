@@ -1,5 +1,16 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// Scroll nav to show selected link on mobile
+const nav = document.querySelector('.nav');
+const selectedNavLink = nav?.querySelector('[aria-current="page"]');
+if (nav && selectedNavLink) {
+  requestAnimationFrame(() => {
+    const navRect = nav.getBoundingClientRect();
+    const linkRect = selectedNavLink.getBoundingClientRect();
+    nav.scrollLeft = (linkRect.left - navRect.left) - (nav.offsetWidth / 2 - selectedNavLink.offsetWidth / 2);
+  });
+}
+
 let activeGalleryController = null;
 
 document.querySelectorAll(".gallery").forEach((gallery) => {

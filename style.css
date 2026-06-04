@@ -3330,6 +3330,11 @@ figure {
     padding-right: var(--gallery-frame-gutter);
   }
 
+  .dietary.first-section .text-view {
+    align-items: center;
+    text-align: center;
+  }
+
   .headline {
     font-size: 40px;
     line-height: 44px;
@@ -3393,19 +3398,26 @@ figure {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    gap: 40px;
   }
 
   .dietary-trio-copy {
     width: 100%;
     flex-shrink: 1;
     min-width: 0;
+    padding-inline: 8%;
   }
 
   .dietary-trio-frame {
     width: 100%;
     max-width: 426px;
-    height: 380px;
+    height: 480px;
     flex-shrink: 0;
+    order: -1;
+  }
+
+  .dietary-trio-img {
+    transform: translate(-50%, -50%) scale(0.7);
   }
 
   .gallery {
@@ -3463,6 +3475,56 @@ figure {
 
   .first-section {
     padding-top: 0;
+  }
+
+  .dietary.first-section {
+    padding-bottom: 96px;
+  }
+
+  .dietary-hero-image + .dietary-hero-image {
+    margin-left: -250px;
+  }
+
+  .dietary-design-section {
+    padding-bottom: 0;
+  }
+
+  .dietary-trio-section {
+    gap: 120px;
+  }
+
+  .poster-card picture {
+    display: contents;
+  }
+
+  .dietary-hero-stack {
+    height: min(410px, calc(100vh - 48px));
+  }
+
+  .dietary-design-img {
+    left: -188px;
+  }
+
+  .dietary-design-frame {
+    transform: scale(calc(var(--gallery-frame-width) / 840px));
+    margin-inline: calc((var(--gallery-frame-width) - 840px) / 2);
+    margin-bottom: calc(834px * (var(--gallery-frame-width) / 840px) - 834px);
+  }
+
+  .dietary-duo-frame {
+    transform: scale(calc(var(--gallery-frame-width) / 724px));
+    transform-origin: top center;
+    margin-inline: calc((var(--gallery-frame-width) - 724px) / 2);
+    margin-bottom: calc(712px * (var(--gallery-frame-width) / 724px) - 712px);
+  }
+
+  @supports (animation-timeline: view()) {
+    [data-duo-anim="1"] .dietary-duo-img-front {
+      animation-range: entry 0% cover 28%;
+    }
+    [data-duo-anim="1"] .dietary-duo-img-back {
+      animation-range: entry 10% cover 38%;
+    }
   }
 
   .footer-section {
