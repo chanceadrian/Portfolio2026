@@ -2286,6 +2286,10 @@ figure {
   justify-content: center;
 }
 
+.poster-card picture {
+  display: contents;
+}
+
 .poster-card-img {
   display: block;
   max-width: 80%;
@@ -3497,9 +3501,6 @@ figure {
     gap: 120px;
   }
 
-  .poster-card picture {
-    display: contents;
-  }
 
   .dietary-hero-stack {
     height: min(410px, calc(100vh - 48px));
