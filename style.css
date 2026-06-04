@@ -1828,6 +1828,29 @@ figure {
 }
 
 
+/* ── Overview — Entrance Animations ─────────────────────── */
+
+.overview .nav {
+  animation: shelfCopyZoomSettle 1400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.overview .text-view {
+  animation: shelfCopyZoomSettle 1400ms cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
+}
+
+.overview-gallery {
+  animation: shelfHeroSoftRise 1600ms cubic-bezier(0.16, 1, 0.3, 1) 420ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overview .nav,
+  .overview .text-view,
+  .overview-gallery {
+    animation: none;
+  }
+}
+
+
 /* ── Overview Gallery ────────────────────────────────────── */
 
 .gallery {
@@ -2303,6 +2326,7 @@ figure {
 }
 
 .anomaly-split {
+  container-type: inline-size;
   width: min(1316px, 100%);
   display: flex;
   justify-content: flex-end;
@@ -2418,10 +2442,18 @@ figure {
 .anomaly-text-stack {
   width: 440px;
   flex: 0 1 440px;
-  min-width: 380px;
+  min-width: 440px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+@container (max-width: 1259px) {
+  .anomaly-text-stack {
+    flex: 1 1 auto;
+    min-width: 380px;
+    width: auto;
+  }
 }
 
 .anomaly-text-stack .body-copy {
