@@ -1738,6 +1738,18 @@ figure {
   }
 }
 
+@keyframes overviewGalleryRise {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes indecisionHeroFan1Quick {
   from {
     transform: translateX(56.5%) scale(1);
@@ -1838,14 +1850,14 @@ figure {
   animation: shelfCopyZoomSettle 1400ms cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
 }
 
-.overview-gallery {
-  animation: shelfHeroSoftRise 1600ms cubic-bezier(0.16, 1, 0.3, 1) 420ms both;
+.overview-gallery > * {
+  animation: overviewGalleryRise 1400ms cubic-bezier(0.16, 1, 0.3, 1) 420ms both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .overview .nav,
   .overview .text-view,
-  .overview-gallery {
+  .overview-gallery > * {
     animation: none;
   }
 }

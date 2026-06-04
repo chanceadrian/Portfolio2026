@@ -311,6 +311,14 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "ArrowRight") { e.preventDefault(); viewerNavigators.get(activeImageViewer)?.(1); }
 });
 
+// Strip fill-mode transform off overview gallery children once the entrance animation ends
+const overviewGallery = document.querySelector('.overview-gallery');
+if (overviewGallery) {
+  overviewGallery.querySelector('.scroll-container')?.addEventListener('animationend', () => {
+    overviewGallery.querySelectorAll(':scope > *').forEach(el => { el.style.animation = ''; });
+  }, { once: true });
+}
+
 // NASA Anomaly scroll reveal
 const anomalyGroup = document.querySelector('.anomaly-image-group');
 const anomalySection = document.querySelector('.nasa-anomaly-section');
