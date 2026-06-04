@@ -1549,26 +1549,6 @@ figure {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes duo-rise-back {
-  from { opacity: 0; transform: translateY(60px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes duo-rise-front {
-  from { opacity: 0; transform: translateY(60px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes duo-scatter-front {
-  from { opacity: 0; transform: scale(0.82) translateX(-50px); }
-  to   { opacity: 1; transform: scale(1) translateX(0); }
-}
-
-@keyframes duo-scatter-back {
-  from { opacity: 0; transform: scale(0.82) translateX(50px); }
-  to   { opacity: 1; transform: scale(1) translateX(0); }
-}
-
 
 @supports (animation-timeline: view()) {
 
@@ -1576,43 +1556,16 @@ figure {
     view-timeline: --duo-frame block;
   }
 
-  /* Option 1: Converge — glide toward each other from opposite sides */
-  [data-duo-anim="1"] .dietary-duo-img-front {
+  .dietary-duo-img-front {
     animation: duo-converge-front linear both;
     animation-timeline: --duo-frame;
     animation-range: entry 0% cover 45%;
   }
 
-  [data-duo-anim="1"] .dietary-duo-img-back {
+  .dietary-duo-img-back {
     animation: duo-converge-back linear both;
     animation-timeline: --duo-frame;
     animation-range: entry 10% cover 55%;
-  }
-
-  /* Option 2: Rise Together — float up, foreground blooms in with depth delay */
-  [data-duo-anim="2"] .dietary-duo-img-back {
-    animation: duo-rise-back linear both;
-    animation-timeline: --duo-frame;
-    animation-range: entry 0% cover 45%;
-  }
-
-  [data-duo-anim="2"] .dietary-duo-img-front {
-    animation: duo-rise-front linear both;
-    animation-timeline: --duo-frame;
-    animation-range: entry 15% cover 55%;
-  }
-
-  /* Option 3: Scatter → Land — zoom in from spread positions */
-  [data-duo-anim="3"] .dietary-duo-img-front {
-    animation: duo-scatter-front linear both;
-    animation-timeline: --duo-frame;
-    animation-range: entry 0% cover 45%;
-  }
-
-  [data-duo-anim="3"] .dietary-duo-img-back {
-    animation: duo-scatter-back linear both;
-    animation-timeline: --duo-frame;
-    animation-range: entry 10% cover 50%;
   }
 
 }
@@ -3528,10 +3481,10 @@ figure {
   }
 
   @supports (animation-timeline: view()) {
-    [data-duo-anim="1"] .dietary-duo-img-front {
+    .dietary-duo-img-front {
       animation-range: entry 0% cover 28%;
     }
-    [data-duo-anim="1"] .dietary-duo-img-back {
+    .dietary-duo-img-back {
       animation-range: entry 10% cover 38%;
     }
   }

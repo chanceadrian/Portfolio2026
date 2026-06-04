@@ -595,7 +595,7 @@ if (shelfDevicesSection) {
     "assets/images/Shelf/ipad-3.avif",
   ];
   const FADE_MS = 800;
-  const PAUSE_MS = 1000;
+  const PAUSE_MS = 3000;
 
   let currentDevice = 0;
   let ipadAnimating = false;
