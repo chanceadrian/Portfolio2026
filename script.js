@@ -217,7 +217,7 @@ function swapCaption(caption, newText) {
   caption.classList.add("is-transitioning");
   setTimeout(() => {
     caption.style.transition = "none";
-    caption.textContent = newText;
+    caption.innerHTML = newText;
     caption.style.height = "auto";
     const newH = caption.offsetHeight;
     caption.style.height = oldH + "px";

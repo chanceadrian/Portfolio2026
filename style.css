@@ -1115,7 +1115,9 @@ figure {
 .indecision-new-headline,
 .indecision-oc-headline,
 .indecision-bp-headline,
-.indecision-new-body {
+.indecision-canvas-headline,
+.indecision-new-body,
+.indecision-canvas-body {
   width: 100%;
   max-width: 840px;
 }
@@ -1179,6 +1181,100 @@ figure {
 }
 
 
+/* ── InDecision — Canvas ─────────────────────────────────── */
+
+.indecision-canvas-section {
+  gap: 64px;
+  background: var(--background-primary);
+}
+
+.indecision-canvas-image-view {
+  position: relative;
+  width: 1175px;
+  height: 602px;
+  flex-shrink: 0;
+}
+
+.indecision-canvas-img {
+  position: absolute;
+  max-width: none;
+}
+
+.indecision-canvas-img-1 {
+  left: -29.5px;
+  top: 27px;
+  width: 904px;
+  height: 595px;
+  z-index: 2;
+}
+
+.indecision-canvas-img-2 {
+  left: 637.5px;
+  top: -4px;
+  width: 466px;
+  height: 608px;
+  z-index: 1;
+}
+
+.indecision-canvas-img-d2 {
+  left: 1005.5px;
+  top: 253px;
+  width: 171px;
+  height: 350px;
+  z-index: 3;
+}
+
+
+/* ── Canvas scroll-driven keyframes ─────────────────────── */
+
+@keyframes canvas-from-left {
+  from { opacity: 0; transform: translateX(-56px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes canvas-from-right {
+  from { opacity: 0; transform: translateX(56px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@supports (animation-timeline: view()) {
+
+  .indecision-canvas-image-view {
+    view-timeline: --canvas-frame block;
+  }
+
+  .indecision-canvas-img-1 {
+    animation: canvas-from-left linear both;
+    animation-timeline: --canvas-frame;
+    animation-range: entry 0% cover 35%;
+  }
+
+  .indecision-canvas-img-2 {
+    animation: canvas-from-right linear both;
+    animation-timeline: --canvas-frame;
+    animation-range: entry 5% cover 40%;
+  }
+
+  .indecision-canvas-img-d2 {
+    animation: canvas-from-right linear both;
+    animation-timeline: --canvas-frame;
+    animation-range: entry 10% cover 45%;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indecision-canvas-img {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.indecision-canvas-body span {
+  color: var(--label-primary);
+}
+
+
 /* ── InDecision — Options & Criteria ─────────────────────── */
 
 .indecision-oc-section {
@@ -1213,6 +1309,11 @@ figure {
   max-width: 580px;
 }
 
+.indecision-oc-section .viewer-caption span,
+.indecision-bp-section .viewer-caption span {
+  color: var(--label-primary);
+}
+
 .indecision-oc-section .segmented-track,
 .indecision-bp-section .segmented-track {
   background: #fff;
@@ -1226,7 +1327,7 @@ figure {
 
 .indecision-bp-section {
   gap: 64px;
-  background: linear-gradient(to bottom, var(--background-primary), var(--background-secondary) 60%);
+  background: var(--background-secondary);
 }
 
 
@@ -2904,6 +3005,13 @@ figure {
     transform-origin: top center;
     margin-inline: calc((var(--gallery-frame-width) - 980px) / 2);
     margin-bottom: calc(674px * (var(--gallery-frame-width) / 980px) - 674px);
+  }
+
+  .indecision-canvas-image-view {
+    transform: scale(calc(var(--gallery-frame-width) / 1175px));
+    transform-origin: top center;
+    margin-inline: calc((var(--gallery-frame-width) - 1175px) / 2);
+    margin-bottom: calc(602px * (var(--gallery-frame-width) / 1175px) - 602px);
   }
 
   .indecision-oc-imgs {
