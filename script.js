@@ -243,7 +243,13 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
   // Initialize
   const initSelected = buttons.find((b) => b.classList.contains("is-selected"));
   if (initSelected && initSelected.dataset.image) {
-    frame.style.backgroundImage = `url('${initSelected.dataset.image}')`;
+    const initSrc = initSelected.dataset.image;
+    frame.classList.add("is-loading");
+    const initImg = new Image();
+    initImg.src = initSrc;
+    initImg.decode()
+      .then(() => { frame.style.backgroundImage = `url('${initSrc}')`; frame.classList.remove("is-loading"); })
+      .catch(() => { frame.style.backgroundImage = `url('${initSrc}')`; frame.classList.remove("is-loading"); });
   }
 
   // Pre-decode all segment images
@@ -706,7 +712,12 @@ if (shelfDevicesSection) {
     if (next >= 0 && next < deviceItems.length) goToDevice(next);
   });
 
-  ipadEl.style.backgroundImage = `url('${IPAD_SRCS[0]}')`;
+  ipadEl.classList.add("is-loading");
+  const ipadInitImg = new Image();
+  ipadInitImg.src = IPAD_SRCS[0];
+  ipadInitImg.decode()
+    .then(() => { ipadEl.style.backgroundImage = `url('${IPAD_SRCS[0]}')`; ipadEl.classList.remove("is-loading"); })
+    .catch(() => { ipadEl.style.backgroundImage = `url('${IPAD_SRCS[0]}')`; ipadEl.classList.remove("is-loading"); });
 
   // Init first item visible
   deviceItems[0].style.opacity = "1";
@@ -923,7 +934,12 @@ if (shelfSpacesSection) {
   });
 
   // Initialize
-  bgFront.style.backgroundImage = `url('${BG_SRCS[0]}')`;
+  bgFront.classList.add("is-loading");
+  const spaceInitImg = new Image();
+  spaceInitImg.src = BG_SRCS[0];
+  spaceInitImg.decode()
+    .then(() => { bgFront.style.backgroundImage = `url('${BG_SRCS[0]}')`; bgFront.classList.remove("is-loading"); })
+    .catch(() => { bgFront.style.backgroundImage = `url('${BG_SRCS[0]}')`; bgFront.classList.remove("is-loading"); });
   currentCaptionText = CAPTIONS[0];
   bgFront.style.opacity = "1";
   bgFront.style.zIndex = "1";
