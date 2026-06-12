@@ -10,6 +10,10 @@
   <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-1.avif" fetchpriority="high">
   <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-2.avif" fetchpriority="high">
   <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/nasa-3.avif" fetchpriority="high">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/sa-1.avif">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/sa-4.avif">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/sa-2.avif">
+  <link rel="preload" as="image" type="image/avif" href="assets/images/NASA/sa-3.avif">
 </head>
 <body class="theme-dark">
   <div class="mobile-pause">
@@ -79,8 +83,9 @@
       </div>
 
       <div class="image-viewer">
-        <div class="image-frame">
-          <div class="image-frame-img"></div>
+        <div class="image-frame nasa-sa-frame">
+          <div class="image-frame-img nasa-sa-base" style="background-image: url('assets/images/NASA/sa-1.avif');"></div>
+          <div class="image-frame-img nasa-sa-transition" aria-hidden="true"></div>
         </div>
 
         <div class="segmented-control">

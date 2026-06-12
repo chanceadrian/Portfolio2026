@@ -236,28 +236,40 @@ function swapCaption(caption, newText) {
 
 document.querySelectorAll(".image-viewer").forEach((viewer) => {
   const frame = viewer.querySelector(".image-frame-img");
+  const transitionFrame = viewer.querySelector(".segmented-image-transition, .nasa-sa-transition");
   const caption = viewer.querySelector(".viewer-caption");
   const indicator = viewer.querySelector(".segmented-indicator");
   const buttons = Array.from(viewer.querySelectorAll(".segmented-button"));
+  const decodedImages = new Map();
+
+  const decodeViewerImage = (src) => {
+    if (decodedImages.has(src)) return decodedImages.get(src);
+
+    const img = new Image();
+    img.src = src;
+    const decodePromise = img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+    decodedImages.set(src, decodePromise);
+    return decodePromise;
+  };
 
   // Initialize
   const initSelected = buttons.find((b) => b.classList.contains("is-selected"));
   if (initSelected && initSelected.dataset.image) {
     const initSrc = initSelected.dataset.image;
-    frame.classList.add("is-loading");
-    const initImg = new Image();
-    initImg.src = initSrc;
-    initImg.decode()
-      .then(() => { frame.style.backgroundImage = `url('${initSrc}')`; frame.classList.remove("is-loading"); })
-      .catch(() => { frame.style.backgroundImage = `url('${initSrc}')`; frame.classList.remove("is-loading"); });
+    frame.dataset.currentImage = initSrc;
+
+    if (!transitionFrame) {
+      frame.classList.add("is-loading");
+      decodeViewerImage(initSrc)
+        .then(() => { frame.style.backgroundImage = `url('${initSrc}')`; frame.classList.remove("is-loading"); })
+        .catch(() => { frame.style.backgroundImage = `url('${initSrc}')`; frame.classList.remove("is-loading"); });
+    }
   }
 
   // Pre-decode all segment images
   buttons.forEach((btn) => {
     if (btn.dataset.image) {
-      const img = new Image();
-      img.src = btn.dataset.image;
-      img.decode().catch(() => {});
+      decodeViewerImage(btn.dataset.image);
     }
   });
 
@@ -267,6 +279,69 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
     indicator.style.width = `${button.offsetWidth}px`;
   };
 
+  let transitionToken = 0;
+
+  const swapFrameImage = (newSrc) => {
+    if (!newSrc) return;
+
+    if (frame.dataset.currentImage === newSrc) {
+      if (transitionFrame) {
+        transitionToken += 1;
+        transitionFrame.style.transition = "none";
+        transitionFrame.classList.remove("is-visible");
+        void transitionFrame.offsetHeight;
+        transitionFrame.style.transition = "";
+      }
+      return;
+    }
+
+    if (!transitionFrame) {
+      decodeViewerImage(newSrc)
+        .then(() => {
+          frame.style.backgroundImage = `url('${newSrc}')`;
+          frame.dataset.currentImage = newSrc;
+        })
+        .catch(() => {
+          frame.style.backgroundImage = `url('${newSrc}')`;
+          frame.dataset.currentImage = newSrc;
+        });
+      return;
+    }
+
+    const token = ++transitionToken;
+
+    decodeViewerImage(newSrc).then(() => {
+      if (token !== transitionToken) return;
+
+      transitionFrame.dataset.nextImage = newSrc;
+      transitionFrame.style.transition = "none";
+      transitionFrame.classList.remove("is-visible");
+      transitionFrame.style.backgroundImage = `url('${newSrc}')`;
+      void transitionFrame.offsetHeight;
+      transitionFrame.style.transition = "";
+
+      requestAnimationFrame(() => {
+        if (token === transitionToken) transitionFrame.classList.add("is-visible");
+      });
+    });
+  };
+
+  if (transitionFrame) {
+    transitionFrame.addEventListener("transitionend", (e) => {
+      if (e.propertyName !== "opacity" || !transitionFrame.classList.contains("is-visible")) return;
+
+      const nextSrc = transitionFrame.dataset.nextImage;
+      if (!nextSrc) return;
+
+      frame.style.backgroundImage = `url('${nextSrc}')`;
+      frame.dataset.currentImage = nextSrc;
+      transitionFrame.style.transition = "none";
+      transitionFrame.classList.remove("is-visible");
+      void transitionFrame.offsetHeight;
+      transitionFrame.style.transition = "";
+    });
+  }
+
   const selectButton = (button) => {
     if (button.classList.contains("is-selected")) return;
 
@@ -275,12 +350,7 @@ document.querySelectorAll(".image-viewer").forEach((viewer) => {
     positionIndicator(button);
 
     if (button.dataset.image) {
-      const newSrc = button.dataset.image;
-      const preloader = new Image();
-      preloader.src = newSrc;
-      preloader.decode()
-        .then(() => { frame.style.backgroundImage = `url('${newSrc}')`; })
-        .catch(() => { frame.style.backgroundImage = `url('${newSrc}')`; });
+      swapFrameImage(button.dataset.image);
     }
 
     if (caption && button.dataset.caption) {
@@ -592,21 +662,8 @@ if (shelfDevicesSection) {
   const deviceItems = Array.from(shelfDevicesSection.querySelectorAll(".shelf-devices-item"));
   const devSegBtns = Array.from(shelfDevicesSection.querySelectorAll(".shelf-devices-segmented .segmented-button"));
   const devIndicator = shelfDevicesSection.querySelector(".shelf-devices-segmented .segmented-indicator");
-  const ipadEl = shelfDevicesSection.querySelector(".shelf-ipad-layer");
-  const replayBtn = shelfDevicesSection.querySelector(".shelf-ipad-replay");
-
-  const IPAD_SRCS = [
-    "assets/images/Shelf/ipad-1.avif",
-    "assets/images/Shelf/ipad-2.avif",
-    "assets/images/Shelf/ipad-3.avif",
-  ];
-  const FADE_MS = 800;
-  const PAUSE_MS = 3000;
 
   let currentDevice = 0;
-  let ipadAnimating = false;
-  let ipadHasAnimated = false;
-  let ipadFirstRun = true;
 
   const positionDevIndicator = (btn) => {
     if (!devIndicator || !btn) return;
@@ -615,50 +672,6 @@ if (shelfDevicesSection) {
     devIndicator.style.transform = `translateX(${btnRect.left - trackRect.left}px)`;
     devIndicator.style.width = `${btnRect.width}px`;
   };
-
-  const transitionSrc = (src) => {
-    const preloader = new Image();
-    preloader.src = src;
-    const doSwap = () => { ipadEl.style.backgroundImage = `url('${src}')`; };
-    if (preloader.complete && preloader.naturalWidth > 0) doSwap();
-    else preloader.onload = doSwap;
-  };
-
-  const runIPadAnim = () => {
-    if (ipadAnimating) return;
-    ipadAnimating = true;
-
-    replayBtn.style.color = "";
-    replayBtn.style.opacity = "0.5";
-    replayBtn.style.pointerEvents = "none";
-
-    const isFirst = ipadFirstRun;
-    ipadFirstRun = false;
-
-    if (!isFirst) transitionSrc(IPAD_SRCS[0]);
-
-    setTimeout(() => {
-      transitionSrc(IPAD_SRCS[1]);
-      setTimeout(() => {
-        transitionSrc(IPAD_SRCS[2]);
-        setTimeout(() => {
-          ipadAnimating = false;
-          replayBtn.style.color = "var(--label-primary)";
-          replayBtn.style.opacity = "1";
-          replayBtn.style.pointerEvents = "auto";
-        }, FADE_MS);
-      }, FADE_MS + PAUSE_MS);
-    }, isFirst ? 0 : FADE_MS + PAUSE_MS);
-  };
-
-  replayBtn?.addEventListener("click", runIPadAnim);
-
-  new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !ipadHasAnimated) {
-      ipadHasAnimated = true;
-      setTimeout(runIPadAnim, 300);
-    }
-  }, { threshold: 0, rootMargin: "0px 0px -85% 0px" }).observe(shelfDevicesSection);
 
   const setDeviceState = (idx) => {
     currentDevice = idx;
@@ -695,7 +708,6 @@ if (shelfDevicesSection) {
   };
 
   devSegBtns.forEach((btn, i) => btn.addEventListener("click", () => {
-    if (i === currentDevice && i === 0) { runIPadAnim(); return; }
     goToDevice(i);
   }));
 
@@ -711,13 +723,6 @@ if (shelfDevicesSection) {
     const next = currentDevice + (e.key === "ArrowRight" ? 1 : -1);
     if (next >= 0 && next < deviceItems.length) goToDevice(next);
   });
-
-  ipadEl.classList.add("is-loading");
-  const ipadInitImg = new Image();
-  ipadInitImg.src = IPAD_SRCS[0];
-  ipadInitImg.decode()
-    .then(() => { ipadEl.style.backgroundImage = `url('${IPAD_SRCS[0]}')`; ipadEl.classList.remove("is-loading"); })
-    .catch(() => { ipadEl.style.backgroundImage = `url('${IPAD_SRCS[0]}')`; ipadEl.classList.remove("is-loading"); });
 
   // Init first item visible
   deviceItems[0].style.opacity = "1";
